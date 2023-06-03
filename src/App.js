@@ -1,6 +1,5 @@
 import logo from './logo.svg';
 import './App.css';
-import DemoComponent from './DemoComponent';
 
 function App() {
   return (
@@ -10,10 +9,14 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Learn React
         </a>
-        <DemoComponent />
       </header>
     </div>
   );
