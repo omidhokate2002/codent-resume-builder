@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import EducationForm from "./education";
-import ProfileForm from "./profile";
-import ExperienceForm from "./experience";
-import SkillsForm from "./skills";
+import Education from "./education";
+import Profile from "./profile";
+import Experience from "./experience";
+import Skills from "./skills";
 
 const OmiResume = () => {
   const [currentPath, setCurrentPath] = useState("/profile");
@@ -10,21 +10,21 @@ const OmiResume = () => {
   const renderForm = () => {
     switch (currentPath) {
       case "/profile":
-        return <ProfileForm />;
+        return <Profile />;
       case "/education":
-        return <EducationForm />;
+        return <Education />;
       case "/experience":
-        return <ExperienceForm />;
+        return <Experience />;
       case "/skills":
-        return <SkillsForm />;
+        return <Skills />;
       default:
         return null;
     }
   };
 
   return (
-    <div>
-      <nav style={{ display: "flex" }}>
+    <div className="container mt-3">
+      <nav className="d-flex">
         <button
           onClick={() => setCurrentPath("/profile")}
           style={{

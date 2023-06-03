@@ -1,8 +1,7 @@
 import React from "react";
-import { Link, Route, Routes } from "react-router-dom";
-import OmiResume from "../pages/omi-resume";
+import { Link } from "react-router-dom";
 
-const Navbar = () => {
+export const Navigation = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link className="navbar-brand" to="/">
@@ -37,12 +36,7 @@ const Navbar = () => {
             </Link>
           </li>
         </ul>
-        <Routes path="*">
-          <Route path="/resume" element={<OmiResume />} />
-        </Routes>
       </div>
     </nav>
   );
 };
-
-export default Navbar;

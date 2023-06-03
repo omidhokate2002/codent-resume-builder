@@ -1,0 +1,30 @@
+export const About = () => {
+  return (
+    <div>
+      <h1>About Resume Builder</h1>
+      <p>
+        Resume Builder is a web application designed to help you create
+        professional resumes easily. With Resume Builder, you can create
+        personalized resumes by filling out a simple form with your information,
+        skills, education, and work experience. The application generates a
+        formatted resume that you can download or print.
+      </p>
+      <p>
+        Our mission is to simplify the process of creating resumes and provide a
+        user-friendly interface that saves you time and effort. Whether you're a
+        job seeker, a student, or a professional, Resume Builder is here to
+        assist you in crafting impressive resumes that stand out.
+      </p>
+      <p>
+        We continuously strive to improve and enhance Resume Builder with new
+        features and templates to meet the evolving needs of job applicants. Our
+        goal is to empower individuals in their career journeys and help them
+        showcase their skills and qualifications effectively.
+      </p>
+      <p>
+        Thank you for choosing Resume Builder. We hope our application helps you
+        succeed in your job search and career endeavors.
+      </p>
+    </div>
+  );
+};

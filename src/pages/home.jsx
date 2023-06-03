@@ -1,12 +1,10 @@
 import { ResumeCard } from "../apps/home";
-import { ResumeContextProvider } from "../context/resume-context";
-import { Footer } from "../layout";
-import Navbar from "../layout/navigation";
+import { Footer, Navigation } from "../layout";
 
 const HomePage = () => {
   return (
-    <ResumeContextProvider>
-      <Navbar />
+    <>
+      <Navigation />
       <div className="container mt-5">
         <div className="d-flex justify-content-center align-items-center flex-column">
           <h1>Welcome to Resume Builder</h1>
@@ -15,7 +13,7 @@ const HomePage = () => {
         </div>
         <Footer />
       </div>
-    </ResumeContextProvider>
+    </>
   );
 };
 
