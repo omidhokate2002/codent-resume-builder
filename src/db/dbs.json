@@ -23,6 +23,71 @@
     {
       "id": 6,
       "name": "Yellow"
+    },
+    {
+      "id": 7,
+      "name": "Magenta"
+    },
+    {
+      "id": 8,
+      "name": "abc"
+    }
+  ],
+  "resume": [
+    {
+      "id": "",
+      "name": "John Doe",
+      "title": "Software Engineer",
+      "contact": {
+        "email": "johndoe@example.com",
+        "phone": "(555) 123-4567",
+        "address": "123 Main St, City, State"
+      },
+      "summary": "Experienced software engineer with a focus on web development and a passion for creating innovative solutions.",
+      "experience": [
+        {
+          "title": "Senior Software Engineer",
+          "company": "ABC Corporation",
+          "location": "City, State",
+          "startDate": "2018-01-01",
+          "endDate": "2022-12-31",
+          "responsibilities": [
+            "Led a team of developers in the implementation of a large-scale e-commerce platform",
+            "Collaborated with cross-functional teams to design and develop new features",
+            "Optimized performance and scalability of existing systems"
+          ]
+        },
+        {
+          "title": "Software Engineer",
+          "company": "XYZ Company",
+          "location": "City, State",
+          "startDate": "2015-05-01",
+          "endDate": "2017-12-31",
+          "responsibilities": [
+            "Developed and maintained web applications using various technologies",
+            "Participated in code reviews and provided feedback to team members",
+            "Troubleshot and resolved software defects"
+          ]
+        }
+      ],
+      "education": [
+        {
+          "degree": "Bachelor of Science in Computer Science",
+          "university": "University of ABC",
+          "location": "City, State",
+          "completionDate": "2014-05-01"
+        }
+      ],
+      "skills": [
+        "JavaScript",
+        "Python",
+        "HTML",
+        "CSS",
+        "React",
+        "Node.js",
+        "SQL",
+        "Git"
+      ]
     }
   ]
 }
