@@ -1,22 +1,48 @@
 import React, { useState } from "react";
 import { TextInput } from "../../../components";
+import { useResumeSpecificContext } from "../../../context";
+import _ from "lodash";
 
-export const SkillsInputs = ({ onSave }) => {
-  const [skills, setSkills] = useState("");
+export const SkillsInputs = () => {
+  const {
+    resumeById: skillTags,
+    setResumeById,
+    dirtyResume,
+    setDirtyResume,
+  } = useResumeSpecificContext();
+
+  const [skills, setSkills] = useState(skillTags.skills);
 
   const handleChange = (e) => {
     setSkills(e.target.value);
   };
   const handleSave = (e) => {
     e.preventDefault();
-
-    const skillsData = {
-      skills: skills.split(",").map((skill) => skill.trim()),
-    };
-
-    onSave(skillsData);
-    setSkills("");
+    const skillsData = skills.split(",").map((skill) => skill.trim());
+    setDirtyResume({
+      ...dirtyResume,
+      skills: skillsData,
+    });
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!_.isEqual(skillTags, dirtyResume)) {
+      await fetch(`/resume/${skillTags.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dirtyResume),
+      })
+        .then((res) => res.json())
+        .then((data) => setResumeById(data));
+    } else {
+      console.log(_.isEqual(skillTags, dirtyResume));
+    }
+  };
+
+  console.log(dirtyResume);
 
   return (
     <div>
@@ -30,6 +56,13 @@ export const SkillsInputs = ({ onSave }) => {
         />
         <button type="submit" className="btn btn-primary">
           Save
+        </button>
+        <button
+          type="submit"
+          className="btn btn-primary"
+          onClick={handleSubmit}
+        >
+          Submit
         </button>
       </form>
     </div>

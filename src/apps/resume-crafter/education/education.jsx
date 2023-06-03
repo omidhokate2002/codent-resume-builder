@@ -1,13 +1,22 @@
 import { useState } from "react";
 import { TextInput } from "../../../components";
+import { useResumeSpecificContext } from "../../../context";
 
-export const EducationInputs = ({ onSave }) => {
+export const EducationInputs = () => {
+  const {
+    resumeById: education,
+    dirtyResume,
+    setDirtyResume,
+  } = useResumeSpecificContext();
+
   const [educationInfo, setEducationInfo] = useState({
-    degree: "",
-    university: "",
-    location: "",
-    completionDate: "",
+    degree: education?.education[0]?.degree,
+    university: education?.education[0]?.university,
+    location: education?.education[0]?.location,
+    completionDate: education?.education[0]?.completionDate,
   });
+
+  console.log(dirtyResume, education);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,16 +29,7 @@ export const EducationInputs = ({ onSave }) => {
 
   const handleSave = (e) => {
     e.preventDefault();
-
-    const educationData = {
-      degree,
-      university,
-      location,
-      completionDate,
-    };
-
-    onSave(educationData);
-    setEducationInfo({});
+    setDirtyResume({ ...dirtyResume, education: [educationInfo] });
   };
 
   return (

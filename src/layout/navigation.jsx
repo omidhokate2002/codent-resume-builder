@@ -1,7 +1,32 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 export const Navigation = () => {
+  const navigate = useNavigate();
+
+  const generateId = async () => {
+    const payload = {
+      id: uuidv4(),
+      experience: [],
+      profile: {
+        profileName: "",
+        title: "Resume Template",
+        summary: "Resume Template for Engineers",
+      },
+      education: [],
+      skills: [],
+    };
+    await fetch("/resume", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    }).then((res) => res.json());
+    navigate("/resume", {
+      state: payload.id,
+    });
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link className="navbar-brand" to="/">
@@ -26,9 +51,9 @@ export const Navigation = () => {
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/resume">
+            <button className="nav-link" onClick={generateId}>
               Create Resume
-            </Link>
+            </button>
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="/about">

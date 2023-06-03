@@ -3,38 +3,30 @@ import { createContext, useContext, useEffect, useState } from "react";
 const ResumeContext = createContext();
 
 const initialState = {
+  id: "",
   resumeData: [],
-  experience: [],
-  contact: {},
-  education: [],
-  skills: [],
+  fetchData: () => {},
 };
 
 export const ResumeContextProvider = ({ children }) => {
   const [resumeData, setResumeData] = useState(initialState.resumeData);
-  const [experience, setExperience] = useState(initialState.experience);
-  const [contact, setContact] = useState(initialState.contact);
-  const [education, setEducation] = useState(initialState.education);
-  const [skills, setSkills] = useState(initialState.skills);
 
-  useEffect(() => {
-    fetch("/resume")
+  const fetchData = async () => {
+    await fetch("/resume")
       .then((res) => res.json())
       .then((data) => {
         setResumeData(data);
       });
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   const context = {
     resumeData,
-    experience,
-    contact,
-    education,
-    skills,
-    setExperience,
-    setContact,
-    setEducation,
-    setSkills,
+    setResumeData,
+    fetchData,
   };
 
   return (

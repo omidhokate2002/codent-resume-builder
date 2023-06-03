@@ -1,14 +1,21 @@
 import { useState } from "react";
 import { TextInput } from "../../../components";
+import { useResumeSpecificContext } from "../../../context";
 
-export const ExperienceInputs = ({ onSave }) => {
+export const ExperienceInputs = () => {
+  const {
+    resumeById: experience,
+    dirtyResume,
+    setDirtyResume,
+  } = useResumeSpecificContext();
+
   const [experienceInfo, setExperienceInfo] = useState({
-    title: "",
-    company: "",
-    location: "",
-    startDate: "",
-    endDate: "",
-    responsibilities: "",
+    title: experience?.experience[0]?.title,
+    company: experience?.experience[0]?.company,
+    location: experience?.experience[0]?.location,
+    startDate: experience?.experience[0]?.startDate,
+    endDate: experience?.experience[0]?.endDate,
+    responsibilities: experience?.experience[0]?.responsibilities,
   });
 
   const { title, company, location, startDate, endDate, responsibilities } =
@@ -24,25 +31,11 @@ export const ExperienceInputs = ({ onSave }) => {
 
   const handleSave = (e) => {
     e.preventDefault();
-
-    const experienceData = {
-      title,
-      company,
-      location,
-      startDate,
-      endDate,
-      responsibilities: responsibilities
-        .split("\n")
-        .filter((res) => res !== ""),
-    };
-
-    onSave(experienceData);
-    setExperienceInfo({});
+    setDirtyResume({ ...dirtyResume, experience: [experienceInfo] });
   };
 
   return (
     <div>
-      <h2>Experience</h2>
       <form onSubmit={handleSave}>
         <TextInput
           label="Job Title"

@@ -4,7 +4,7 @@ import Profile from "./profile";
 import Experience from "./experience";
 import Skills from "./skills";
 
-const OmiResume = () => {
+const CreateResume = () => {
   const [currentPath, setCurrentPath] = useState("/profile");
 
   const renderForm = () => {
@@ -70,4 +70,4 @@ const OmiResume = () => {
   );
 };
 
-export default OmiResume;
+export default CreateResume;

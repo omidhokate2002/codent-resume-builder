@@ -1,16 +1,25 @@
 import { useState } from "react";
 import { TextInput } from "../../../components";
+import { useResumeSpecificContext } from "../../../context";
 
-export const ProfileInputs = ({ onSave }) => {
+export const ProfileInputs = () => {
+  const {
+    resumeById: profile,
+    dirtyResume,
+    setDirtyResume,
+  } = useResumeSpecificContext();
+
   const [profileInfo, setProfileInfo] = useState({
-    name: "",
-    title: "",
-    email: "",
-    phone: "",
-    summary: "",
+    profileName: profile?.profile?.profileName,
+    title: profile?.profile?.title,
+    email: profile?.profile?.email,
+    phone: profile?.profile?.phone,
+    summary: profile?.profile?.summary,
   });
 
-  const { email, name, phone, summary, title } = profileInfo;
+  console.log(profile);
+
+  const { email, profileName, phone, summary, title } = profileInfo;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,17 +31,7 @@ export const ProfileInputs = ({ onSave }) => {
 
   const handleSave = (e) => {
     e.preventDefault();
-
-    const profileData = {
-      name,
-      title,
-      email,
-      phone,
-      summary,
-    };
-
-    onSave(profileData);
-    setProfileInfo("");
+    setDirtyResume({ ...dirtyResume, profile: profileInfo });
   };
 
   return (
@@ -43,7 +42,7 @@ export const ProfileInputs = ({ onSave }) => {
           type="text"
           id="profileName"
           name="profileName"
-          value={name}
+          value={profileName}
           onChange={handleChange}
         />
         <TextInput
@@ -64,7 +63,7 @@ export const ProfileInputs = ({ onSave }) => {
         />
         <TextInput
           label="Phone"
-          type="phone"
+          type="tel"
           id="phone"
           name="phone"
           value={phone}
@@ -76,6 +75,7 @@ export const ProfileInputs = ({ onSave }) => {
             className="form-control"
             id="summary"
             rows="4"
+            name="summary"
             value={summary}
             onChange={handleChange}
           />
