@@ -36,3 +36,43 @@
     transform: rotate(360deg);
   }
 }
+
+/* Demo Component Styles. Remove it when you start building your application */
+
+.demo-component {
+  margin-top: 20px;
+  background-color: rgb(255, 255, 255, 0.04);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.demo-user-list {
+  text-align: left;
+  font-size: 1rem;
+  color: white;
+  font-weight: thin;
+  padding: 0;
+}
+
+.demo-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 5px;
+}
+
+.demo-input {
+  padding: 10px;
+  font-size: 1rem;
+  width: 300px;
+}
+
+.demo-component button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}

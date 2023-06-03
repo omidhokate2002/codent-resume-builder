@@ -1,0 +1,28 @@
+{
+  "api": [
+    {
+      "id": 1,
+      "name": "Pink"
+    },
+    {
+      "id": 2,
+      "name": "Purple"
+    },
+    {
+      "id": 3,
+      "name": "Red"
+    },
+    {
+      "id": 4,
+      "name": "Green"
+    },
+    {
+      "id": 5,
+      "name": "Cyan"
+    },
+    {
+      "id": 6,
+      "name": "Yellow"
+    }
+  ]
+}
