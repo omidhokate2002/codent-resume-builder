@@ -142,6 +142,17 @@
         "Thenga",
         "Maanga"
       ]
+    },
+    {
+      "id": "ef1a9837-4aea-4048-bcee-e091a94410d3",
+      "experience": [],
+      "profile": {
+        "profileName": "",
+        "title": "Resume Template",
+        "summary": "Resume Template for Engineers"
+      },
+      "education": [],
+      "skills": []
     }
   ]
 }

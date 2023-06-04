@@ -61,7 +61,7 @@ export const ResumeCard = () => {
           {resumeData.map((resume) => {
             return (
               <div className="card mt-3" key={resume.id}>
-                <h5 className="card-header">{resume.profile.title}</h5>
+                <h5 className="card-header bg-dark text-white">{resume.profile.title}</h5>
                 <div className="card-body">
                   <p className="card-text">{resume.profile.summary}</p>
                   <div className="d-flex justify-content-end gap-3">

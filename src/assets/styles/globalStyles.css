@@ -5,3 +5,7 @@
   background-color: #363636;
   color: white;
 }
+
+a {
+  text-decoration: none;
+}
