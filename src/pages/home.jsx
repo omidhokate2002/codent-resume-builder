@@ -7,12 +7,12 @@ const HomePage = () => {
   const handleNavigate = () => {
     navigate("/preview");
   };
+
   return (
-    <>
+    <div className="d-flex flex-column min-vh-100">
       <Navigation />
       <button className="btn btn-primary" onClick={handleNavigate}>
-        {" "}
-        Preview{" "}
+        Preview
       </button>
       <div className="container mt-3">
         <div className="row justify-content-center align-items-center">
@@ -21,14 +21,17 @@ const HomePage = () => {
             <p>Create your professional resume with ease.</p>
           </div>
         </div>
-        <div className="row">
-          <div className="col-md-12 mt-5 justify-content-center">
+        <div className="row mt-5">
+          <div className="col-md-6">
+            <ResumeCard />
+          </div>
+          <div className="col-md-6">
             <ResumeCard />
           </div>
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 
