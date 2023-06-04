@@ -8,7 +8,7 @@ const HomePage = () => {
     navigate("/preview");
   };
   return (
-    <>
+    <div>
       <Navigation />
       <button className="btn btn-primary" onClick={handleNavigate}>
         {" "}
