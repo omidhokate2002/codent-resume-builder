@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { useResumeContext } from "../../context/resume-context";
 import { useResumeSpecificContext } from "../../context";
 import { useEffect, useState } from "react";
-import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
 
 export const ResumeCard = () => {
   const { resumeData, isLoading, fetchData } = useResumeContext();
@@ -54,41 +53,25 @@ export const ResumeCard = () => {
         <>
           {resumeData.map((resume) => {
             return (
-              <div >
-                {isLoading ? (
-                  <div className="text-center">
-                    <div className="spinner-border" role="status">
-                      <span className="visually-hidden">Loading...</span>
-                    </div>
+              <div className="card mt-3" key={resume.id}>
+                <h5 className="card-header">{resume.profile.title}</h5>
+                <div className="card-body">
+                  <p className="card-text">{resume.profile.summary}</p>
+                  <div className="d-flex justify-content-end gap-3">
+                    <button
+                      className="btn btn-danger mr-2"
+                      onClick={() => handleDelete(resume.id)}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => handleUpdate(resume?.id)}
+                    >
+                      Update
+                    </button>
                   </div>
-                ) : (
-                  <>
-                    {resumeData.map((resume) => (
-                      <div key={resume.id}>
-                        <div className="card">
-                          <div className="card-body">
-                            <h5 className="card-title">{resume.profile.title}</h5>
-                            <p className="card-text">{resume.profile.summary}</p>
-                            <div>
-                              <button
-                                className="btn btn-danger me-2"
-                                onClick={() => handleDelete(resume.id)}
-                              >
-                                <AiOutlineDelete />
-                              </button>
-                              <button
-                                className="btn btn-primary"
-                                onClick={() => handleUpdate(resume?.id)}
-                              >
-                                <AiOutlineEdit />
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </>
-                )}
+                </div>
               </div>
             );
           })}

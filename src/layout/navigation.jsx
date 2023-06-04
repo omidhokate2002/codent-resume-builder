@@ -34,41 +34,39 @@ export const Navigation = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark py-4">
-      <div className="container">
-        <Link className="navbar-brand" to="/">
-          <img src="logo192.png" alt="Resume Builder Icon" width="32" height="32" />
-        </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ml-auto">
-            <li className="nav-item">
-              <Link className="nav-link" to="/">
-                Home
-              </Link>
-            </li>
-            <li className="nav-item">
-              <button className="nav-link" onClick={generateId}>
-                Create Resume
-              </button>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/about">
-                About
-              </Link>
-            </li>
-          </ul>
-        </div>
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark py-4">
+      <Link className="navbar-brand" to="/">
+        Resume Builder
+      </Link>
+      <button
+        className="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span className="navbar-toggler-icon"></span>
+      </button>
+      <div className="collapse navbar-collapse" id="navbarNav">
+        <ul className="navbar-nav">
+          <li className="nav-item">
+            <Link className="nav-link" to="/">
+              Home
+            </Link>
+          </li>
+          <li className="nav-item">
+            <button className="nav-link" onClick={generateId}>
+              Create Resume
+            </button>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/about">
+              About
+            </Link>
+          </li>
+        </ul>
       </div>
     </nav>
   );
