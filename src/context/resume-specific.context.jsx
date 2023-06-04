@@ -4,10 +4,7 @@ const ResumeSpecificContext = createContext();
 
 const initialState = {
   id: "",
-  name: "",
-  title: "",
-  summary: "",
-  resumeData: [],
+  profile: [],
   experience: [],
   contact: {},
   education: [],
@@ -18,6 +15,7 @@ export const ResumeSpecificContextProvider = ({ children }) => {
   const [resumeById, setResumeById] = useState(initialState);
   const [dirtyResume, setDirtyResume] = useState(initialState);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const fetchDataById = async (resumeId) => {
     try {
@@ -29,6 +27,7 @@ export const ResumeSpecificContextProvider = ({ children }) => {
           setDirtyResume(structuredClone(data));
         });
     } catch (error) {
+      setError(error);
       console.log(error);
     } finally {
       setIsLoading(false);
@@ -43,6 +42,8 @@ export const ResumeSpecificContextProvider = ({ children }) => {
     fetchDataById,
     isLoading,
     setIsLoading,
+    error,
+    setError,
   };
 
   return (

@@ -28,7 +28,7 @@ export const ExperienceInputs = () => {
       [name]: value,
     });
   };
-
+  console.log(dirtyResume);
   const handleSave = (e) => {
     e.preventDefault();
     setDirtyResume({ ...dirtyResume, experience: [experienceInfo] });
@@ -44,6 +44,7 @@ export const ExperienceInputs = () => {
           name="title"
           value={title}
           onChange={handleChange}
+          required={true}
         />
         <TextInput
           label="Location"
@@ -52,6 +53,7 @@ export const ExperienceInputs = () => {
           name="location"
           value={location}
           onChange={handleChange}
+          required={true}
         />
         <TextInput
           label="Company"
@@ -60,6 +62,7 @@ export const ExperienceInputs = () => {
           name="company"
           value={company}
           onChange={handleChange}
+          required={true}
         />
         <TextInput
           label="Start Date"
@@ -68,6 +71,7 @@ export const ExperienceInputs = () => {
           name="startDate"
           value={startDate}
           onChange={handleChange}
+          required={true}
         />
         <TextInput
           label="End Date"
@@ -76,15 +80,20 @@ export const ExperienceInputs = () => {
           name="endDate"
           value={endDate}
           onChange={handleChange}
+          required={true}
         />
         <div className="form-group">
-          <label htmlFor="responsibilities">Responsibilities</label>
+          <label htmlFor="responsibilities">
+            Responsibilities (Add as a Comma Separated Values)
+          </label>
           <textarea
             className="form-control"
             id="responsibilities"
+            name="responsibilities"
             rows="4"
             value={responsibilities}
             onChange={handleChange}
+            required={true}
           />
         </div>
 

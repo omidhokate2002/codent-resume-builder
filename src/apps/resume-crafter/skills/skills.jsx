@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { TextInput } from "../../../components";
 import { useResumeSpecificContext } from "../../../context";
 import _ from "lodash";
+import { useNavigate } from "react-router-dom";
 
 export const SkillsInputs = () => {
   const {
@@ -10,6 +11,7 @@ export const SkillsInputs = () => {
     dirtyResume,
     setDirtyResume,
   } = useResumeSpecificContext();
+  const navigate = useNavigate();
 
   const [skills, setSkills] = useState(skillTags.skills);
 
@@ -37,8 +39,7 @@ export const SkillsInputs = () => {
       })
         .then((res) => res.json())
         .then((data) => setResumeById(data));
-    } else {
-      console.log(_.isEqual(skillTags, dirtyResume));
+      navigate("/");
     }
   };
 
@@ -53,6 +54,7 @@ export const SkillsInputs = () => {
           id="skills"
           value={skills}
           onChange={handleChange}
+          required={true}
         />
         <button type="submit" className="btn btn-primary mt-3">
           Save

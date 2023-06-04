@@ -1,4 +1,13 @@
-export const TextInput = ({ label, type, value, id, name, onChange }) => {
+export const TextInput = ({
+  label,
+  type,
+  value,
+  id,
+  name,
+  onChange,
+  required,
+  pattern,
+}) => {
   return (
     <div>
       <div className="form-group">
@@ -10,6 +19,8 @@ export const TextInput = ({ label, type, value, id, name, onChange }) => {
           name={name}
           value={value}
           onChange={onChange}
+          required={required}
+          pattern={pattern}
         />
       </div>
     </div>

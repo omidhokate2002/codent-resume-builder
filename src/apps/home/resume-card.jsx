@@ -16,6 +16,13 @@ export const ResumeCard = () => {
     });
   };
 
+  const handlePreview = async (resumeId) => {
+    await fetchDataById(resumeId);
+    navigate("/preview", {
+      state: resumeId,
+    });
+  };
+
   const handleDelete = async (resumeId) => {
     if (window.confirm("Are you sure about deleting this item?")) {
       try {
@@ -58,6 +65,13 @@ export const ResumeCard = () => {
                 <div className="card-body">
                   <p className="card-text">{resume.profile.summary}</p>
                   <div className="d-flex justify-content-end gap-3">
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => handlePreview(resume.id)}
+                    >
+                      Preview
+                    </button>
+
                     <button
                       className="btn btn-danger mr-2"
                       onClick={() => handleDelete(resume.id)}

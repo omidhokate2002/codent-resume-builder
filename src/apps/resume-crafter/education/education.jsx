@@ -41,6 +41,7 @@ export const EducationInputs = () => {
         name="degree"
         value={degree}
         onChange={handleChange}
+        required={true}
       />
       <TextInput
         label="Location"
@@ -49,6 +50,7 @@ export const EducationInputs = () => {
         name="location"
         value={location}
         onChange={handleChange}
+        required={true}
       />
       <TextInput
         label="University"
@@ -57,6 +59,7 @@ export const EducationInputs = () => {
         name="university"
         value={university}
         onChange={handleChange}
+        required={true}
       />
       <TextInput
         label="Completion Date"
@@ -65,6 +68,7 @@ export const EducationInputs = () => {
         name="completionDate"
         value={completionDate}
         onChange={handleChange}
+        required={true}
       />
 
       <button type="submit" className="btn btn-primary mt-3">
