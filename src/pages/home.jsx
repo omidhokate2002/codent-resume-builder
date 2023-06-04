@@ -9,18 +9,17 @@ const HomePage = () => {
         <div className="row justify-content-center align-items-center">
           <div className="text-center">
             <h1>Welcome to Resume Builder</h1>
-            <p>Create your professional resume with ease.</p>
+            <p><i>Create your professional resume with ease.</i></p>
           </div>
         </div>
         <div className="row">
           <div className="col-md-12 mt-5 justify-content-center">
+            <p><i>previously saved resume cards, you can choose to edit or delete them</i></p>
             <ResumeCard />
           </div>
         </div>
-      </div>
-      <footer className="text-center sticky-bottom ">
+      </div>  
         <Footer />
-      </footer>
     </div>
   );
 };

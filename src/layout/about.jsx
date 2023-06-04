@@ -45,6 +45,7 @@ export const About = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary"
+                style={{ textDecoration: "none" }}
               >
                 Vishnu Divakaran
               </a>
@@ -54,6 +55,7 @@ export const About = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary"
+                style={{ textDecoration: "none" }}
               >
                 Sunny Dowari
               </a>{" "}
@@ -63,6 +65,7 @@ export const About = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary"
+                style={{ textDecoration: "none" }}
               >
                 Om Dhokate
               </a>{" "}
@@ -72,6 +75,7 @@ export const About = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary"
+                style={{ textDecoration: "none" }}
               >
                 Aditya Mandal
               </a>{" "}
