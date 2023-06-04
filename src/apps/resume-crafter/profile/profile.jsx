@@ -1,13 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TextInput } from "../../../components";
 import { useResumeSpecificContext } from "../../../context";
+import { useLocation } from "react-router-dom";
 
 export const ProfileInputs = () => {
   const {
     resumeById: profile,
     dirtyResume,
     setDirtyResume,
+    fetchDataById,
   } = useResumeSpecificContext();
+
+  const { state } = useLocation();
 
   const [profileInfo, setProfileInfo] = useState({
     profileName: profile?.profile?.profileName,
@@ -18,6 +22,23 @@ export const ProfileInputs = () => {
   });
 
   console.log(profile);
+
+  useEffect(() => {
+    fetchDataById(state);
+  }, []);
+
+  useEffect(() => {
+    // Update the profileInfo state when the profile data is fetched
+    if (profile) {
+      setProfileInfo({
+        profileName: profile.profile?.profileName ?? "",
+        title: profile.profile?.title ?? "",
+        email: profile.profile?.email ?? "",
+        phone: profile.profile?.phone ?? "",
+        summary: profile.profile?.summary ?? "",
+      });
+    }
+  }, [profile]);
 
   const { email, profileName, phone, summary, title } = profileInfo;
 

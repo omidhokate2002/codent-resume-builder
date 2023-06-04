@@ -57,7 +57,7 @@ export const ResumeCard = () => {
                 <h5 className="card-header">{resume.profile.title}</h5>
                 <div className="card-body">
                   <p className="card-text">{resume.profile.summary}</p>
-                  <div className="d-flex justify-content-end">
+                  <div className="d-flex justify-content-end gap-3">
                     <button
                       className="btn btn-danger mr-2"
                       onClick={() => handleDelete(resume.id)}
