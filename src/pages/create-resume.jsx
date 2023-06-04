@@ -5,7 +5,6 @@ import Experience from "./experience";
 import Skills from "./skills";
 import { Footer, Navigation } from "../layout";
 
-
 const CreateResume = () => {
   const [currentPath, setCurrentPath] = useState("/profile");
 
@@ -25,52 +24,51 @@ const CreateResume = () => {
   };
 
   return (
-    <>
-    <Navigation />
-    <div className="container mt-3 min-vh-100">
-      <nav className="d-flex">
-        <button
-          onClick={() => setCurrentPath("/profile")}
-          className={`btn btn-outline-primary ms-2 ${
-            currentPath === "/profile" && "active"
-          }`}
-        >
-          Profile {currentPath === "/profile" && <span>&#9658;</span>}
-        </button>
-        <button
-          onClick={() => setCurrentPath("/education")}
-          className={`btn btn-outline-primary ms-2 ${
-            currentPath === "/education" && "active"
-          }`}
-        >
-          Education {currentPath === "/education" && <span>&#9658;</span>}
-        </button>
-        <button
-          onClick={() => setCurrentPath("/experience")}
-          className={`btn btn-outline-primary ms-2 ${
-            currentPath === "/experience" && "active"
-          }`}
-        >
-          Experience {currentPath === "/experience" && <span>&#9658;</span>}
-        </button>
-        <button
-          onClick={() => setCurrentPath("/skills")}
-          className={`btn btn-outline-primary ms-2 ${
-            currentPath === "/skills" && "active"
-          }`}
-        >
-          Skills {currentPath === "/skills"}
-        </button>
-      </nav>
+    <div className="d-flex flex-column min-vh-100">
+      <Navigation />
+      <div className="flex-grow-1 container mt-3">
+        <nav className="d-flex">
+          <button
+            onClick={() => setCurrentPath("/profile")}
+            className={`btn btn-outline-primary ms-2 ${
+              currentPath === "/profile" && "active"
+            }`}
+          >
+            Profile {currentPath === "/profile" && <span>&#9658;</span>}
+          </button>
+          <button
+            onClick={() => setCurrentPath("/education")}
+            className={`btn btn-outline-primary ms-2 ${
+              currentPath === "/education" && "active"
+            }`}
+          >
+            Education {currentPath === "/education" && <span>&#9658;</span>}
+          </button>
+          <button
+            onClick={() => setCurrentPath("/experience")}
+            className={`btn btn-outline-primary ms-2 ${
+              currentPath === "/experience" && "active"
+            }`}
+          >
+            Experience {currentPath === "/experience" && <span>&#9658;</span>}
+          </button>
+          <button
+            onClick={() => setCurrentPath("/skills")}
+            className={`btn btn-outline-primary ms-2 ${
+              currentPath === "/skills" && "active"
+            }`}
+          >
+            Skills {currentPath === "/skills"}
+          </button>
+        </nav>
 
-      {renderForm()}
+        <div className="flex-grow-1">{renderForm()}</div>
+      </div>
+      <footer className="text-center ">
+        <Footer />
+      </footer>
     </div>
-    <Footer />
-    </>
-    
   );
-  
 };
-
 
 export default CreateResume;
