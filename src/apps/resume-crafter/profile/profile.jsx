@@ -23,9 +23,9 @@ export const ProfileInputs = () => {
 
   console.log(profile);
 
-  useEffect(() => {
-    fetchDataById(state);
-  }, []);
+  // useEffect(() => {
+  //   fetchDataById(state);
+  // }, []);
 
   useEffect(() => {
     // Update the profileInfo state when the profile data is fetched
