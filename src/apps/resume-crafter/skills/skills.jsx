@@ -54,12 +54,12 @@ export const SkillsInputs = () => {
           value={skills}
           onChange={handleChange}
         />
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary mt-3">
           Save
         </button>
         <button
           type="submit"
-          className="btn btn-primary"
+          className="btn btn-primary mt-3"
           onClick={handleSubmit}
         >
           Submit

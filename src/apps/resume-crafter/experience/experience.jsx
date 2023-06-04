@@ -88,7 +88,7 @@ export const ExperienceInputs = () => {
           />
         </div>
 
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary mt-3">
           Save
         </button>
       </form>

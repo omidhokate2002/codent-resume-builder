@@ -27,41 +27,35 @@ const CreateResume = () => {
       <nav className="d-flex">
         <button
           onClick={() => setCurrentPath("/profile")}
-          style={{
-            marginRight: "10px",
-            backgroundColor: currentPath === "/profile" ? "lightblue" : "white",
-          }}
+          className={`btn btn-outline-primary ms-2 ${
+            currentPath === "/profile" && "active"
+          }`}
         >
           Profile {currentPath === "/profile" && <span>&#9658;</span>}
         </button>
         <button
           onClick={() => setCurrentPath("/education")}
-          style={{
-            marginRight: "10px",
-            backgroundColor:
-              currentPath === "/education" ? "lightblue" : "white",
-          }}
+          className={`btn btn-outline-primary ms-2 ${
+            currentPath === "/education" && "active"
+          }`}
         >
           Education {currentPath === "/education" && <span>&#9658;</span>}
         </button>
         <button
           onClick={() => setCurrentPath("/experience")}
-          style={{
-            marginRight: "10px",
-            backgroundColor:
-              currentPath === "/experience" ? "lightblue" : "white",
-          }}
+          className={`btn btn-outline-primary ms-2 ${
+            currentPath === "/experience" && "active"
+          }`}
         >
           Experience {currentPath === "/experience" && <span>&#9658;</span>}
         </button>
         <button
           onClick={() => setCurrentPath("/skills")}
-          style={{
-            marginRight: "10px",
-            backgroundColor: currentPath === "/skills" ? "lightblue" : "white",
-          }}
+          className={`btn btn-outline-primary ms-2 ${
+            currentPath === "/skills" && "active"
+          }`}
         >
-          Skills {currentPath === "/skills" && <span>&#9658;</span>}
+          Skills {currentPath === "/skills"}
         </button>
       </nav>
 
