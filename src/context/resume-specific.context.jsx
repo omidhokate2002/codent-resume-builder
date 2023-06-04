@@ -17,14 +17,22 @@ const initialState = {
 export const ResumeSpecificContextProvider = ({ children }) => {
   const [resumeById, setResumeById] = useState(initialState);
   const [dirtyResume, setDirtyResume] = useState(initialState);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchDataById = async (resumeId) => {
-    await fetch(`/resume/${resumeId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setResumeById(data);
-        setDirtyResume(structuredClone(data));
-      });
+    try {
+      setIsLoading(true);
+      await fetch(`/resume/${resumeId}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setResumeById(data);
+          setDirtyResume(structuredClone(data));
+        });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const context = {
@@ -33,6 +41,8 @@ export const ResumeSpecificContextProvider = ({ children }) => {
     dirtyResume,
     setDirtyResume,
     fetchDataById,
+    isLoading,
+    setIsLoading,
   };
 
   return (

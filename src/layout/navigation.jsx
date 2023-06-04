@@ -1,9 +1,11 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import { useResumeSpecificContext } from "../context";
 
 export const Navigation = () => {
   const navigate = useNavigate();
+  const { fetchDataById } = useResumeSpecificContext();
 
   const generateId = async () => {
     const payload = {
@@ -17,11 +19,15 @@ export const Navigation = () => {
       education: [],
       skills: [],
     };
+
     await fetch("/resume", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     }).then((res) => res.json());
+
+    await fetchDataById(payload.id);
+
     navigate("/resume", {
       state: payload.id,
     });

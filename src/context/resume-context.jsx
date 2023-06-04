@@ -10,23 +10,29 @@ const initialState = {
 
 export const ResumeContextProvider = ({ children }) => {
   const [resumeData, setResumeData] = useState(initialState.resumeData);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = async () => {
-    await fetch("/resume")
-      .then((res) => res.json())
-      .then((data) => {
-        setResumeData(data);
-      });
+    setIsLoading(true);
+    try {
+      await fetch("/resume")
+        .then((res) => res.json())
+        .then((data) => {
+          setResumeData(data);
+        });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const context = {
     resumeData,
     setResumeData,
     fetchData,
+    isLoading,
+    setIsLoading,
   };
 
   return (
