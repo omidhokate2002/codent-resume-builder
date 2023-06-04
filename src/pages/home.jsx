@@ -15,9 +15,7 @@ const HomePage = () => {
         Preview{" "}
       </button>
       <div
-        className="container mt-5"
-        style={{ backgroundColor: "black", color: "white" }}
-      >
+        className="container mt-5"  style={{ backgroundColor: "black", color: "white" }}>
         <div className="row justify-content-center align-items-center">
           <div className="text-center">
             <h1>Welcome to Resume Builder</h1>
@@ -29,10 +27,8 @@ const HomePage = () => {
             <ResumeCard />
           </div>
         </div>
-      </div>
-      <footer className="text-center sticky-bottom ">
+      </div>     
         <Footer />
-      </footer>
     </>
   );
 };

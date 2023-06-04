@@ -33,6 +33,22 @@ export const About = () => {
             Thank you for choosing Resume Builder. We hope our application helps
             you succeed in your job search and career endeavors.
           </p>
+          <p>
+            coden't was a team that got together that build this team project</p>
+            
+            <hr className="my-4" />
+            <ul>
+              <h5>
+            <a href="https://github.com/vishnumd91" target="_blank">Vishnu Divakaran</a><br />
+            <a href="https://github.com/sunnydowari" target="_blank">Sunny Dowari</a> <br />
+            <a href="https://github.com/omidhokate2002" target="_blank">Om Dhokate</a> <br />
+            <a href="https://github.com/adityamandal-Developer" target="_blank">Aditya Mandal</a> <br />
+            </h5>
+            
+            </ul>
+            
+          
+          
         </div>
       </div>
       <Footer />

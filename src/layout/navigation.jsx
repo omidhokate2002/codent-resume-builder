@@ -34,7 +34,7 @@ export const Navigation = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark py-1">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark py-4">
       <Link className="navbar-brand" to="/">
         Resume Builder
       </Link>
