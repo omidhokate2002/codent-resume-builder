@@ -4,6 +4,7 @@ import Profile from "./profile";
 import Experience from "./experience";
 import Skills from "./skills";
 import { Footer, Navigation } from "../layout";
+import Projects from "./projects";
 
 const CreateResume = () => {
   const [currentPath, setCurrentPath] = useState("/profile");
@@ -18,6 +19,8 @@ const CreateResume = () => {
         return <Experience />;
       case "/skills":
         return <Skills />;
+      case "/projects":
+        return <Projects />;
       default:
         return null;
     }
@@ -52,6 +55,15 @@ const CreateResume = () => {
           >
             Experience {currentPath === "/experience" && <span>&#9658;</span>}
           </button>
+          <button
+            onClick={() => setCurrentPath("/projects")}
+            className={`btn btn-outline-primary ms-2 ${
+              currentPath === "/projects" && "active"
+            }`}
+          >
+            Projects {currentPath === "/projects" && <span>&#9658;</span>}
+          </button>
+
           <button
             onClick={() => setCurrentPath("/skills")}
             className={`btn btn-outline-primary ms-2 ${

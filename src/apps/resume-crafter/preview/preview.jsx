@@ -13,15 +13,15 @@ export const Preview = () => {
     fetchDataById(state);
   }, []);
 
-  const { profile, education, experience, skills } = resumeById;
-  console.log(skills);
+  const { profile, project, experience, skills, education } = resumeById;
+  console.log(education);
 
   return (
     <div className="mainContainer">
       <div className="A4">
         <div className="sheet">
           <button
-            className="btn btn-print btn-sm btn-light"
+            className="btn btn-print btn-sm btn-dark"
             onClick={handlePrint}
           >
             <i className="fa fa-print"></i> Print
@@ -84,8 +84,8 @@ export const Preview = () => {
                                 <small>{exp?.location}</small>
                               </div>
                               <div className="xp-date">
-                                {`${getDateInRequiredFormat(exp?.startDate)} -
-                                ${getDateInRequiredFormat(exp?.endDate)}`}
+                                {`${getDateInRequiredFormat(exp.startDate)} -
+                                ${getDateInRequiredFormat(exp.endDate)}`}
                               </div>
                               <div className="xp-detail">
                                 {exp &&
@@ -100,6 +100,77 @@ export const Preview = () => {
                                         </>
                                       );
                                     })}
+                              </div>
+                            </div>
+                          </>
+                        );
+                      })}
+                  </div>
+                </section>
+
+                {/* Project Details */}
+                <section className="resume__section resume__experience">
+                  <div className="resume__content">
+                    <div className="resume__section-title">
+                      <i className="fa fa-briefcase"></i>
+                      <h2>Projects</h2>
+                    </div>
+                    {project &&
+                      project?.map((pro) => {
+                        return (
+                          <>
+                            <div className="xp-item">
+                              <div className="xp-job">
+                                <span>{pro.projectTitle}</span>
+                                <br />
+                                {/* <small>{pro.location}</small> */}
+                              </div>
+                              <div className="xp-date">
+                                {`${getDateInRequiredFormat(pro.startDate)} -
+                                  ${getDateInRequiredFormat(pro.endDate)}`}
+                              </div>
+                              <div className="xp-detail">
+                                {pro &&
+                                  pro.description.split(",").map((res) => {
+                                    return (
+                                      <>
+                                        <ul>
+                                          <li>{res.trim()}</li>
+                                        </ul>
+                                      </>
+                                    );
+                                  })}
+                              </div>
+                            </div>
+                          </>
+                        );
+                      })}
+                  </div>
+                </section>
+                {/* Education Details */}
+                <section className="resume__section resume__experience">
+                  <div className="resume__content">
+                    <div className="resume__section-title">
+                      <i className="fa fa-briefcase"></i>
+                      <h2>Education Details</h2>
+                    </div>
+                    {education &&
+                      education?.map((educate) => {
+                        return (
+                          <>
+                            <div className="xp-item">
+                              <div className="xp-job">
+                                <span>
+                                  {educate.degree}, {educate.university}
+                                </span>
+                                <br />
+                                <small>{educate.location}</small>
+                              </div>
+                              <div className="xp-date">
+                                {`Completed in 
+                                ${getDateInRequiredFormat(
+                                  educate.completionDate
+                                )}`}
                               </div>
                             </div>
                           </>
