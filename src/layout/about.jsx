@@ -34,21 +34,50 @@ export const About = () => {
             you succeed in your job search and career endeavors.
           </p>
           <p>
-            coden't was a team that got together that build this team project</p>
-            
-            <hr className="my-4" />
-            <ul>
-              <h5>
-            <a href="https://github.com/vishnumd91" target="_blank">Vishnu Divakaran</a><br />
-            <a href="https://github.com/sunnydowari" target="_blank">Sunny Dowari</a> <br />
-            <a href="https://github.com/omidhokate2002" target="_blank">Om Dhokate</a> <br />
-            <a href="https://github.com/adityamandal-Developer" target="_blank">Aditya Mandal</a> <br />
+            <strong>coden't</strong> was a team that got together to build this
+            team project.
+          </p>
+          <hr className="my-4" />
+          <ul>
+            <h5>
+              <a
+                href="https://github.com/vishnumd91"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary"
+              >
+                Vishnu Divakaran
+              </a>
+              <br />
+              <a
+                href="https://github.com/sunnydowari"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary"
+              >
+                Sunny Dowari
+              </a>{" "}
+              <br />
+              <a
+                href="https://github.com/omidhokate2002"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary"
+              >
+                Om Dhokate
+              </a>{" "}
+              <br />
+              <a
+                href="https://github.com/adityamandal-Developer"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary"
+              >
+                Aditya Mandal
+              </a>{" "}
+              <br />
             </h5>
-            
-            </ul>
-            
-          
-          
+          </ul>
         </div>
       </div>
       <Footer />
