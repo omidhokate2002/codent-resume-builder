@@ -5,7 +5,7 @@ const HomePage = () => {
   return (
     <>
       <Navigation />
-      <div className="container mt-5">
+      <div className="container mt-5" style={{ backgroundColor: 'black', color: 'white' }}>
         <div className="row justify-content-center align-items-center">
           <div className="text-center">
             <h1>Welcome to Resume Builder</h1>
