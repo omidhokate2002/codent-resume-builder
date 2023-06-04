@@ -33,7 +33,7 @@ const HomePage = () => {
       <footer className="text-center sticky-bottom ">
         <Footer />
       </footer>
-    </>
+   </div>
   );
 };
 
