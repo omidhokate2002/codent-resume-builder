@@ -6,13 +6,19 @@ const HomePage = () => {
     <>
       <Navigation />
       <div className="container mt-5">
-        <div className="d-flex justify-content-center align-items-center flex-column">
-          <h1>Welcome to Resume Builder</h1>
-          <p>Create your professional resume with ease.</p>
-          <ResumeCard />
+        <div className="row justify-content-center align-items-center">
+          <div className="text-center">
+            <h1>Welcome to Resume Builder</h1>
+            <p>Create your professional resume with ease.</p>
+          </div>
         </div>
-        <Footer />
+        <div className="row">
+          <div className="col-md-12 mt-5 justify-content-center">
+            <ResumeCard />
+          </div>
+        </div>
       </div>
+      <Footer />
     </>
   );
 };

@@ -4,8 +4,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const Skills = () => {
   return (
     <div className="card skills-card mt-4">
+      <h2 className="card-header">Skills</h2>
       <div className="card-body">
-        <h2 className="card-title">Skills</h2>
         <SkillsInputs />
       </div>
     </div>

@@ -137,7 +137,33 @@
           "completionDate": "2023-06-02"
         }
       ],
-      "skills": ["React", "Thenga", "Maanga"]
+      "skills": [
+        "React",
+        "Thenga",
+        "Maanga"
+      ]
+    },
+    {
+      "id": "5f58cccf-c4e0-4355-ada7-9a080dbdd387",
+      "experience": [],
+      "profile": {
+        "profileName": "",
+        "title": "Resume Template",
+        "summary": "Resume Template for Engineers"
+      },
+      "education": [],
+      "skills": []
+    },
+    {
+      "id": "76bb5741-23dd-4ea6-8df9-02cbe941bed6",
+      "experience": [],
+      "profile": {
+        "profileName": "",
+        "title": "Resume Template",
+        "summary": "Resume Template for Engineers"
+      },
+      "education": [],
+      "skills": []
     }
   ]
 }

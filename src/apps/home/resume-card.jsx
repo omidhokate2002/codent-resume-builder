@@ -18,9 +18,9 @@ export const ResumeCard = () => {
     <>
       {resumeData.map((resume) => {
         return (
-          <div className="card" key={resume.id}>
+          <div className="card mt-3" key={resume.id}>
+            <h5 className="card-header">{resume.profile.title}</h5>
             <div className="card-body">
-              <h5 className="card-title">{resume.profile.title}</h5>
               <p className="card-text">{resume.profile.summary}</p>
               <div className="d-flex justify-content-end">
                 <button className="btn btn-danger mr-2">Delete</button>
