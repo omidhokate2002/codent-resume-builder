@@ -16,6 +16,12 @@ export const ResumeSpecificContextProvider = ({ children }) => {
   const [dirtyResume, setDirtyResume] = useState(initialState);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isSaved, setIsSaved] = useState(false);
+  const [alertState, setAlertState] = useState({
+    open: isSaved,
+    vertical: "top",
+    horizontal: "center",
+  });
 
   const fetchDataById = async (resumeId) => {
     try {
@@ -44,6 +50,10 @@ export const ResumeSpecificContextProvider = ({ children }) => {
     setIsLoading,
     error,
     setError,
+    isSaved,
+    setIsSaved,
+    alertState,
+    setAlertState,
   };
 
   return (

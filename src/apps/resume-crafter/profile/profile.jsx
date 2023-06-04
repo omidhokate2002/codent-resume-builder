@@ -1,45 +1,34 @@
 import { useEffect, useState } from "react";
 import { TextInput } from "../../../components";
 import { useResumeSpecificContext } from "../../../context";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
+import { Snackbar, Alert } from "@mui/material";
 
 export const ProfileInputs = () => {
   const {
-    resumeById: profile,
     dirtyResume,
     setDirtyResume,
     fetchDataById,
+    isSaved,
+    alertState,
+    setIsSaved,
   } = useResumeSpecificContext();
 
-  const { state } = useLocation();
+  // const { state } = useLocation();
 
   const [profileInfo, setProfileInfo] = useState({
-    profileName: profile?.profile?.profileName,
-    title: profile?.profile?.title,
-    email: profile?.profile?.email,
-    phone: profile?.profile?.phone,
-    summary: profile?.profile?.summary,
-    address: profile?.profile?.address,
+    profileName: dirtyResume?.profile?.profileName,
+    title: dirtyResume?.profile?.title,
+    email: dirtyResume?.profile?.email,
+    phone: dirtyResume?.profile?.phone,
+    summary: dirtyResume?.profile?.summary,
+    address: dirtyResume?.profile?.address,
   });
-
-  console.log(profile);
+  const { vertical, horizontal } = alertState;
 
   // useEffect(() => {
   //   fetchDataById(state);
   // }, []);
-
-  useEffect(() => {
-    // Update the profileInfo state when the profile data is fetched
-    if (profile) {
-      setProfileInfo({
-        profileName: profile.profile?.profileName ?? "",
-        title: profile.profile?.title ?? "",
-        email: profile.profile?.email ?? "",
-        phone: profile.profile?.phone ?? "",
-        summary: profile.profile?.summary ?? "",
-      });
-    }
-  }, [profile]);
 
   const { email, profileName, phone, summary, title, address } = profileInfo;
 
@@ -54,10 +43,30 @@ export const ProfileInputs = () => {
   const handleSave = (e) => {
     e.preventDefault();
     setDirtyResume({ ...dirtyResume, profile: profileInfo });
+    setIsSaved(true);
   };
 
   return (
     <div>
+      {isSaved && (
+        <Snackbar
+          anchorOrigin={{ vertical, horizontal }}
+          open={isSaved}
+          autoHideDuration={6000}
+          onClose={() => setIsSaved(false)}
+          key={vertical + horizontal}
+          style={{ backgroundColor: "green" }}
+        >
+          <Alert
+            onClose={() => setIsSaved(!isSaved)}
+            severity="success"
+            sx={{ width: "100%" }}
+            style={{ backgroundColor: "green" }}
+          >
+            Changes Saved Successfully! Please Submit the data in skills Section
+          </Alert>
+        </Snackbar>
+      )}
       <form onSubmit={handleSave}>
         <TextInput
           label="Name"

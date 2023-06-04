@@ -1,25 +1,25 @@
 import { useState } from "react";
 import { TextInput } from "../../../components";
 import { useResumeSpecificContext } from "../../../context";
+import { Snackbar, Alert } from "@mui/material";
 
 export const ExperienceInputs = () => {
-  const {
-    resumeById: experience,
-    dirtyResume,
-    setDirtyResume,
-  } = useResumeSpecificContext();
+  const { dirtyResume, setDirtyResume, isSaved, setIsSaved, alertState } =
+    useResumeSpecificContext();
 
   const [experienceInfo, setExperienceInfo] = useState({
-    title: experience?.experience[0]?.title,
-    company: experience?.experience[0]?.company,
-    location: experience?.experience[0]?.location,
-    startDate: experience?.experience[0]?.startDate,
-    endDate: experience?.experience[0]?.endDate,
-    responsibilities: experience?.experience[0]?.responsibilities,
+    title: dirtyResume?.experience[0]?.title,
+    company: dirtyResume?.experience[0]?.company,
+    location: dirtyResume?.experience[0]?.location,
+    startDate: dirtyResume?.experience[0]?.startDate,
+    endDate: dirtyResume?.experience[0]?.endDate,
+    responsibilities: dirtyResume?.experience[0]?.responsibilities,
   });
 
   const { title, company, location, startDate, endDate, responsibilities } =
     experienceInfo;
+
+  const { vertical, horizontal } = alertState;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,14 +28,34 @@ export const ExperienceInputs = () => {
       [name]: value,
     });
   };
-  console.log(dirtyResume);
   const handleSave = (e) => {
     e.preventDefault();
     setDirtyResume({ ...dirtyResume, experience: [experienceInfo] });
+    setIsSaved(true);
   };
 
   return (
     <div>
+      {isSaved && (
+        <Snackbar
+          anchorOrigin={{ vertical, horizontal }}
+          open={isSaved}
+          autoHideDuration={6000}
+          onClose={() => setIsSaved(false)}
+          key={vertical + horizontal}
+          style={{ backgroundColor: "green" }}
+        >
+          <Alert
+            onClose={() => setIsSaved(!isSaved)}
+            severity="success"
+            sx={{ width: "100%" }}
+            style={{ backgroundColor: "green" }}
+          >
+            Changes Saved Successfully! Please Submit the data in skills Section
+          </Alert>
+        </Snackbar>
+      )}
+
       <form onSubmit={handleSave}>
         <TextInput
           label="Job Title"
