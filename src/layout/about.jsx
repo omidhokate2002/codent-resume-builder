@@ -1,6 +1,10 @@
+import { Footer, Navigation } from "../layout";
+
 export const About = () => {
   return (
-    <div>
+    <div className="d-flex flex-column min-vh-100">
+      <Navigation />
+      <div className="flex-grow-1 container mt-5" style={{ backgroundColor: 'black', color: 'white' }}>
       <h1>About Resume Builder</h1>
       <p>
         Resume Builder is a web application designed to help you create
@@ -25,6 +29,8 @@ export const About = () => {
         Thank you for choosing Resume Builder. We hope our application helps you
         succeed in your job search and career endeavors.
       </p>
+      </div>
+      <Footer />
     </div>
   );
 };

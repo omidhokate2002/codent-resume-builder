@@ -3,6 +3,8 @@ import Education from "./education";
 import Profile from "./profile";
 import Experience from "./experience";
 import Skills from "./skills";
+import { Footer, Navigation } from "../layout";
+
 
 const CreateResume = () => {
   const [currentPath, setCurrentPath] = useState("/profile");
@@ -23,7 +25,9 @@ const CreateResume = () => {
   };
 
   return (
-    <div className="container mt-3">
+    <>
+    <Navigation />
+    <div className="container mt-3 min-vh-100">
       <nav className="d-flex">
         <button
           onClick={() => setCurrentPath("/profile")}
@@ -61,7 +65,12 @@ const CreateResume = () => {
 
       {renderForm()}
     </div>
+    <Footer />
+    </>
+    
   );
+  
 };
+
 
 export default CreateResume;
