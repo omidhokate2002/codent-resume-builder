@@ -15,7 +15,7 @@ const HomePage = () => {
         Preview{" "}
       </button>
       <div
-        className="container mt-5"  style={{ backgroundColor: "black", color: "white" }}>
+        className="container mt-5"  style={{ backgroundColor: "#363636" }}>
         <div className="row justify-content-center align-items-center">
           <div className="text-center">
             <h1>Welcome to Resume Builder</h1>
