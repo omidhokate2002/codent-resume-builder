@@ -1,49 +1,15 @@
 {
-  "api": [
-    {
-      "id": 1,
-      "name": "Pink"
-    },
-    {
-      "id": 2,
-      "name": "Purple"
-    },
-    {
-      "id": 3,
-      "name": "Red"
-    },
-    {
-      "id": 4,
-      "name": "Green"
-    },
-    {
-      "id": 5,
-      "name": "Cyan"
-    },
-    {
-      "id": 6,
-      "name": "Yellow"
-    },
-    {
-      "id": 7,
-      "name": "Magenta"
-    },
-    {
-      "id": 8,
-      "name": "abc"
-    }
-  ],
   "resume": [
     {
-      "id": "",
-      "name": "John Doe",
-      "title": "Software Engineer",
-      "contact": {
+      "id": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb74",
+      "profile": {
+        "profileName": "John Doe",
         "email": "johndoe@example.com",
         "phone": "(555) 123-4567",
-        "address": "123 Main St, City, State"
+        "address": "123 Main St, City, State",
+        "title": "Software Engineer",
+        "summary": "Experienced software engineer with a focus on web development and a passion for creating innovative solutions."
       },
-      "summary": "Experienced software engineer with a focus on web development and a passion for creating innovative solutions.",
       "experience": [
         {
           "title": "Senior Software Engineer",
@@ -51,11 +17,7 @@
           "location": "City, State",
           "startDate": "2018-01-01",
           "endDate": "2022-12-31",
-          "responsibilities": [
-            "Led a team of developers in the implementation of a large-scale e-commerce platform",
-            "Collaborated with cross-functional teams to design and develop new features",
-            "Optimized performance and scalability of existing systems"
-          ]
+          "responsibilities": "Developed and maintained web applications using various technologies, Participated in code reviews and provided feedback to team members, Troubleshot and resolved software defects"
         },
         {
           "title": "Software Engineer",
@@ -63,11 +25,7 @@
           "location": "City, State",
           "startDate": "2015-05-01",
           "endDate": "2017-12-31",
-          "responsibilities": [
-            "Developed and maintained web applications using various technologies",
-            "Participated in code reviews and provided feedback to team members",
-            "Troubleshot and resolved software defects"
-          ]
+          "responsibilities": "Developed and maintained web applications using various technologies, Participated in code reviews and provided feedback to team members, Troubleshot and resolved software defects"
         }
       ],
       "education": [
@@ -76,6 +34,15 @@
           "university": "University of ABC",
           "location": "City, State",
           "completionDate": "2014-05-01"
+        }
+      ],
+      "project": [
+        {
+          "projectTitle": "Resume Builder",
+          "description": "Nothing much to describe, it's a project which is senseless to be completed in 1 day",
+          "technologiesUsed": "Technologies,Understandable Technologies, Birds Flying in the brain kind of technologies",
+          "startDate": "2023-06-02",
+          "endDate": "2023-07-05"
         }
       ],
       "skills": [
@@ -87,6 +54,105 @@
         "Node.js",
         "SQL",
         "Git"
+      ]
+    },
+    {
+      "id": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+      "profile": {
+        "profileName": "Vishnu",
+        "email": "johndoe@example.com",
+        "phone": "(555) 123-4567",
+        "address": "123 Main St, City, State",
+        "title": "Software Developer",
+        "summary": "Experienced software engineer with a focus on web development and a passion for creating innovative solutions."
+      },
+      "experience": [
+        {
+          "title": "Senior Software Engineer",
+          "company": "ABC Corporation",
+          "location": "City, State",
+          "startDate": "2018-01-01",
+          "endDate": "2022-12-31",
+          "responsibilities": "Developed and maintained web applications using various technologies, Participated in code reviews and provided feedback to team members, Troubleshot and resolved software defects"
+        },
+        {
+          "title": "Software Engineer",
+          "company": "XYZ Company",
+          "location": "City, State",
+          "startDate": "2015-05-01",
+          "endDate": "2017-12-31",
+          "responsibilities": "Developed and maintained web applications using various technologies, Participated in code reviews and provided feedback to team members, Troubleshot and resolved software defects"
+        }
+      ],
+      "education": [
+        {
+          "degree": "Bachelor of Science in Computer Science",
+          "university": "University of ABC",
+          "location": "City, State",
+          "completionDate": "2014-05-01"
+        }
+      ],
+      "project": [
+        {
+          "projectTitle": "Resume Builder",
+          "description": "Nothing much to describe, it's a project which is senseless to be completed in 1 day",
+          "technologiesUsed": "Technologies,Understandable Technologies, Birds Flying in the brain kind of technologies",
+          "startDate": "2023-06-02",
+          "endDate": "2023-07-05"
+        }
+      ],
+      "skills": [
+        "JavaScript",
+        "Python",
+        "HTML",
+        "CSS",
+        "React",
+        "Node.js",
+        "SQL",
+        "Git"
+      ]
+    },
+    {
+      "id": "5c6ad5d5-3e82-412d-91d1-d83597320365",
+      "experience": [
+        {
+          "title": "Associate Consulatant",
+          "company": "Infosys",
+          "location": "Kerala",
+          "startDate": "2023-06-02",
+          "endDate": "2023-06-07",
+          "responsibilities": "Halwa, Chicken, All Eating only"
+        }
+      ],
+      "profile": {
+        "profileName": "Vishnu MD",
+        "title": "ACON",
+        "email": "vishnudivakaran1@gmail.com",
+        "phone": "9605774685",
+        "summary": "ACON Summary",
+        "address": "kunnathery"
+      },
+      "education": [
+        {
+          "degree": "B.Tech",
+          "university": "Sreepathy Institute of management and technology ",
+          "location": "Kerala",
+          "completionDate": "2023-06-02"
+        }
+      ],
+      "project": [
+        {
+          "projectTitle": "Resume Builder",
+          "description": "Nothing much to describe, it's a project which is senseless to be completed in 1 day",
+          "technologiesUsed": "Technologies,Understandable Technologies, Birds Flying in the brain kind of technologies",
+          "startDate": "2023-06-02",
+          "endDate": "2023-07-05"
+        }
+      ],
+      "skills": [
+        "React",
+        "Thenga",
+        "Maanga"
       ]
     }
   ]

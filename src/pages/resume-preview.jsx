@@ -1,5 +1,11 @@
+import { Preview } from "../apps/resume-crafter/preview";
+
 const ResumePreview = () => {
-  return <div>ResumePreview</div>;
+  return (
+    <>
+      <Preview />
+    </>
+  );
 };
 
 export default ResumePreview;
