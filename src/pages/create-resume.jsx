@@ -37,7 +37,10 @@ const CreateResume = () => {
               currentPath === "/profile" && "active"
             }`}
           >
-            Profile {currentPath === "/profile" && <span>&#9658;</span>}
+            Profile{" "}
+            {currentPath === "/profile" && (
+              <span className="bg-primary">&#9658;</span>
+            )}
           </button>
           <button
             onClick={() => setCurrentPath("/education")}
@@ -45,7 +48,10 @@ const CreateResume = () => {
               currentPath === "/education" && "active"
             }`}
           >
-            Education {currentPath === "/education" && <span>&#9658;</span>}
+            Education{" "}
+            {currentPath === "/education" && (
+              <span className="bg-primary">&#9658;</span>
+            )}
           </button>
           <button
             onClick={() => setCurrentPath("/experience")}
@@ -53,7 +59,10 @@ const CreateResume = () => {
               currentPath === "/experience" && "active"
             }`}
           >
-            Experience {currentPath === "/experience" && <span>&#9658;</span>}
+            Experience{" "}
+            {currentPath === "/experience" && (
+              <span className="bg-primary">&#9658;</span>
+            )}
           </button>
           <button
             onClick={() => setCurrentPath("/projects")}
@@ -61,7 +70,10 @@ const CreateResume = () => {
               currentPath === "/projects" && "active"
             }`}
           >
-            Projects {currentPath === "/projects" && <span>&#9658;</span>}
+            Projects{" "}
+            {currentPath === "/projects" && (
+              <span className="bg-primary">&#9658;</span>
+            )}
           </button>
 
           <button
