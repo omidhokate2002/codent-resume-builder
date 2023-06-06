@@ -25,7 +25,7 @@ export const SkillsInputs = () => {
   };
   const handleSave = (e) => {
     e.preventDefault();
-    const skillsData = skills.split(",").map((skill) => skill.trim());
+    const skillsData = skills.toString().split(",").map((skill) => skill.trim());
     setDirtyResume({
       ...dirtyResume,
       skills: skillsData,
