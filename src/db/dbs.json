@@ -111,6 +111,226 @@
         "SQL",
         "Git"
       ]
+    },
+    {
+      "id": "1a2b3c4d-5e6f-7g8h-9i0j-k1l2m3n4o5p",
+      "profile": {
+        "profileName": "Jane Smith",
+        "email": "janesmith@example.com",
+        "phone": "(555) 987-6543",
+        "address": "456 Elm St, City, State",
+        "title": "Data Scientist",
+        "summary": "Passionate data scientist with expertise in machine learning algorithms and data analysis."
+      },
+      "experience": [
+        {
+          "title": "Data Scientist",
+          "company": "Data Insights Inc.",
+          "location": "City, State",
+          "startDate": "2019-02-15",
+          "endDate": "2022-08-31",
+          "responsibilities": "Developed and implemented machine learning models, Conducted data analysis and provided insights, Collaborated with cross-functional teams on projects"
+        },
+        {
+          "title": "Research Assistant",
+          "company": "University of XYZ",
+          "location": "City, State",
+          "startDate": "2016-09-01",
+          "endDate": "2018-12-31",
+          "responsibilities": "Assisted in research projects, Collected and analyzed data, Wrote research reports and papers"
+        }
+      ],
+      "education": [
+        {
+          "degree": "Master of Science in Data Science",
+          "university": "ABC University",
+          "location": "City, State",
+          "completionDate": "2016-05-01"
+        }
+      ],
+      "project": [
+        {
+          "projectTitle": "Customer Churn Prediction",
+          "description": "Developed a machine learning model to predict customer churn for a telecom company.",
+          "technologiesUsed": "Python, scikit-learn, pandas, NumPy",
+          "startDate": "2022-01-01",
+          "endDate": "2022-06-30"
+        }
+      ],
+      "skills": [
+        "Python",
+        "R",
+        "Machine Learning",
+        "Data Analysis",
+        "Statistics",
+        "SQL",
+        "Tableau"
+      ]
+    },
+    {
+      "id": "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p",
+      "profile": {
+        "profileName": "Emily Johnson",
+        "email": "emilyjohnson@example.com",
+        "phone": "(555) 789-1234",
+        "address": "789 Oak St, City, State",
+        "title": "Graphic Designer",
+        "summary": "Creative and detail-oriented graphic designer with a passion for visual storytelling and brand identity."
+      },
+      "experience": [
+        {
+          "title": "Graphic Designer",
+          "company": "Design Studio XYZ",
+          "location": "City, State",
+          "startDate": "2017-06-01",
+          "endDate": "2022-05-31",
+          "responsibilities": "Created visual designs for various mediums, Collaborated with clients to understand their design requirements, Managed multiple design projects simultaneously"
+        },
+        {
+          "title": "Junior Graphic Designer",
+          "company": "Creative Agency ABC",
+          "location": "City, State",
+          "startDate": "2015-01-01",
+          "endDate": "2017-05-31",
+          "responsibilities": "Assisted senior designers in creating visual assets, Contributed to brainstorming sessions for design concepts, Prepared design files for print and digital media"
+        }
+      ],
+      "education": [
+        {
+          "degree": "Bachelor of Fine Arts in Graphic Design",
+          "university": "University of XYZ",
+          "location": "City, State",
+          "completionDate": "2014-05-01"
+        }
+      ],
+      "project": [
+        {
+          "projectTitle": "Brand Identity Redesign",
+          "description": "Revamped the brand identity for a technology startup, including logo design, color palette, and typography.",
+          "technologiesUsed": "Adobe Creative Suite, Sketch, InVision",
+          "startDate": "2022-01-15",
+          "endDate": "2022-04-30"
+        }
+      ],
+      "skills": [
+        "Adobe Creative Suite",
+        "Illustrator",
+        "Photoshop",
+        "InDesign",
+        "Typography",
+        "UI/UX Design",
+        "Print Design"
+      ]
+    },
+    {
+      "id": "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5q",
+      "profile": {
+        "profileName": "Michael Johnson",
+        "email": "michaeljohnson@example.com",
+        "phone": "(555) 567-8901",
+        "address": "321 Pine St, City, State",
+        "title": "Marketing Specialist",
+        "summary": "Results-driven marketing specialist with expertise in digital marketing strategies and campaign management."
+      },
+      "experience": [
+        {
+          "title": "Marketing Specialist",
+          "company": "Digital Marketing Agency XYZ",
+          "location": "City, State",
+          "startDate": "2018-03-01",
+          "endDate": "2022-09-30",
+          "responsibilities": "Developed and executed digital marketing campaigns, Analyzed campaign performance and optimized strategies, Managed social media accounts and content creation"
+        },
+        {
+          "title": "Marketing Assistant",
+          "company": "Marketing Firm ABC",
+          "location": "City, State",
+          "startDate": "2016-01-01",
+          "endDate": "2017-12-31",
+          "responsibilities": "Assisted in market research and competitor analysis, Prepared marketing materials and presentations, Monitored and reported on campaign metrics"
+        }
+      ],
+      "education": [
+        {
+          "degree": "Bachelor of Business Administration in Marketing",
+          "university": "University of ABC",
+          "location": "City, State",
+          "completionDate": "2015-05-01"
+        }
+      ],
+      "project": [
+        {
+          "projectTitle": "Digital Advertising Campaign",
+          "description": "Managed a digital advertising campaign for a consumer goods company, targeting specific demographics and optimizing ad placements.",
+          "technologiesUsed": "Google Ads, Facebook Ads Manager, Google Analytics",
+          "startDate": "2022-02-01",
+          "endDate": "2022-05-31"
+        }
+      ],
+      "skills": [
+        "Digital Marketing",
+        "Social Media Marketing",
+        "Google Ads",
+        "SEO",
+        "Email Marketing",
+        "Copywriting",
+        "Marketing Analytics"
+      ]
+    },
+    {
+      "id": "1a2b3c4d-5e6f-7g8h-9i0j-k1l2m3n4o5q",
+      "profile": {
+        "profileName": "Sarah Williams",
+        "email": "sarahwilliams@example.com",
+        "phone": "(555) 456-7890",
+        "address": "987 Maple St, City, State",
+        "title": "Project Manager",
+        "summary": "Dedicated project manager with a proven track record of successfully delivering complex projects on time and within budget."
+      },
+      "experience": [
+        {
+          "title": "Project Manager",
+          "company": "Global Consulting Firm XYZ",
+          "location": "City, State",
+          "startDate": "2017-04-01",
+          "endDate": "2022-07-31",
+          "responsibilities": "Led cross-functional project teams, Developed project plans and schedules, Monitored project progress and implemented corrective actions"
+        },
+        {
+          "title": "Assistant Project Manager",
+          "company": "Construction Company ABC",
+          "location": "City, State",
+          "startDate": "2015-01-01",
+          "endDate": "2017-03-31",
+          "responsibilities": "Assisted in project coordination and documentation, Prepared progress reports and communicated with stakeholders, Ensured compliance with project specifications and regulations"
+        }
+      ],
+      "education": [
+        {
+          "degree": "Bachelor of Engineering in Civil Engineering",
+          "university": "University of XYZ",
+          "location": "City, State",
+          "completionDate": "2014-05-01"
+        }
+      ],
+      "project": [
+        {
+          "projectTitle": "Construction Project: Office Building",
+          "description": "Managed the construction of a multi-story office building, overseeing budget, schedule, and quality control.",
+          "technologiesUsed": "Project Management Software, AutoCAD, Microsoft Excel",
+          "startDate": "2022-01-01",
+          "endDate": "2023-03-31"
+        }
+      ],
+      "skills": [
+        "Project Management",
+        "Risk Management",
+        "Stakeholder Management",
+        "Budgeting",
+        "Quality Control",
+        "Construction Management",
+        "Leadership"
+      ]
     }
   ]
 }
