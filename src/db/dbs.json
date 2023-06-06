@@ -111,49 +111,6 @@
         "SQL",
         "Git"
       ]
-    },
-    {
-      "id": "5c6ad5d5-3e82-412d-91d1-d83597320365",
-      "experience": [
-        {
-          "title": "Associate Consulatant",
-          "company": "Infosys",
-          "location": "Kerala",
-          "startDate": "2023-06-02",
-          "endDate": "2023-06-07",
-          "responsibilities": "Halwa, Chicken, All Eating only"
-        }
-      ],
-      "profile": {
-        "profileName": "Vishnu MD",
-        "title": "ACON",
-        "email": "vishnudivakaran1@gmail.com",
-        "phone": "9605774685",
-        "summary": "ACON Summary",
-        "address": "kunnathery"
-      },
-      "education": [
-        {
-          "degree": "B.Tech",
-          "university": "Sreepathy Institute of management and technology ",
-          "location": "Kerala",
-          "completionDate": "2023-06-02"
-        }
-      ],
-      "project": [
-        {
-          "projectTitle": "Resume Builder",
-          "description": "Nothing much to describe, it's a project which is senseless to be completed in 1 day",
-          "technologiesUsed": "Technologies,Understandable Technologies, Birds Flying in the brain kind of technologies",
-          "startDate": "2023-06-02",
-          "endDate": "2023-07-05"
-        }
-      ],
-      "skills": [
-        "React",
-        "Thenga",
-        "Maanga"
-      ]
     }
   ]
 }
