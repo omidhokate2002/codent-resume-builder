@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { useResumeContext } from "../../context/resume-context";
 import { useResumeSpecificContext } from "../../context";
 import { useEffect, useState } from "react";
+import { AiFillEdit, AiFillDelete } from "react-icons/ai";
+import { MdPreview } from "react-icons/md";
 
 export const ResumeCard = () => {
   const { resumeData, isLoading, fetchData } = useResumeContext();
@@ -69,20 +71,19 @@ export const ResumeCard = () => {
                       className="btn btn-primary"
                       onClick={() => handlePreview(resume.id)}
                     >
-                      Preview
-                    </button>
-
-                    <button
-                      className="btn btn-danger mr-2"
-                      onClick={() => handleDelete(resume.id)}
-                    >
-                      Delete
+                      <MdPreview />
                     </button>
                     <button
                       className="btn btn-primary"
                       onClick={() => handleUpdate(resume?.id)}
                     >
-                      Update
+                      <AiFillEdit />
+                    </button>
+                    <button
+                      className="btn btn-danger mr-2"
+                      onClick={() => handleDelete(resume.id)}
+                    >
+                      <AiFillDelete />
                     </button>
                   </div>
                 </div>
