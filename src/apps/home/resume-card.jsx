@@ -63,7 +63,9 @@ export const ResumeCard = () => {
           {resumeData.map((resume) => {
             return (
               <div className="card mt-3" key={resume.id}>
-                <h5 className="card-header bg-dark text-white">{resume.profile.title}</h5>
+                <h5 className="card-header bg-dark text-white">
+                  {resume.profile.title}
+                </h5>
                 <div className="card-body">
                   <p className="card-text">{resume.profile.summary}</p>
                   <div className="d-flex justify-content-end gap-3">
@@ -71,19 +73,19 @@ export const ResumeCard = () => {
                       className="btn btn-primary"
                       onClick={() => handlePreview(resume.id)}
                     >
-                      <MdPreview />
+                      <MdPreview className="bg-primary" />
                     </button>
                     <button
                       className="btn btn-primary"
                       onClick={() => handleUpdate(resume?.id)}
                     >
-                      <AiFillEdit />
+                      <AiFillEdit className="bg-primary" />
                     </button>
                     <button
                       className="btn btn-danger mr-2"
                       onClick={() => handleDelete(resume.id)}
                     >
-                      <AiFillDelete />
+                      <AiFillDelete className="bg-danger" />
                     </button>
                   </div>
                 </div>
