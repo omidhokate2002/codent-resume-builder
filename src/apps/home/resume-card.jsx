@@ -73,19 +73,19 @@ export const ResumeCard = () => {
                       className="btn btn-primary"
                       onClick={() => handlePreview(resume.id)}
                     >
-                      <MdPreview className="bg-primary" />
+                      <MdPreview className="bg-transparent" />
                     </button>
                     <button
                       className="btn btn-primary"
                       onClick={() => handleUpdate(resume?.id)}
                     >
-                      <AiFillEdit className="bg-primary" />
+                      <AiFillEdit className="bg-transparent" />
                     </button>
                     <button
                       className="btn btn-danger mr-2"
                       onClick={() => handleDelete(resume.id)}
                     >
-                      <AiFillDelete className="bg-danger" />
+                      <AiFillDelete className="bg-transparent" />
                     </button>
                   </div>
                 </div>
