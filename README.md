@@ -1,53 +1,179 @@
-# Codent resume builder 
+# Resume Builder App
 
-The Codent Resume Builder is a powerful web application developed by our team, designed to streamline the process of creating professional resumes. Our application features a sleek and modern template that caters to a wide range of industries and job positions.
+A modern, full-stack resume builder application built with React, Node.js, Express, and MongoDB. Create professional resumes with a beautiful, modular interface.
 
-With our single, carefully crafted template, users can effortlessly showcase their skills, experiences, and qualifications in a visually appealing and organized manner. The template is designed to capture the attention of employers and effectively highlight the key aspects of a candidate's profile.
+## Features
 
-The template incorporates sections for personal information, summary or objective, work experience, education, skills, and additional details. Each section is thoughtfully designed with an emphasis on clarity and readability, ensuring that users can present their information in a structured and visually pleasing way.
+- 🔐 **User Authentication** - Secure login/register system with JWT
+- 📝 **Resume Creation** - Build resumes with multiple sections
+- 🎨 **Multiple Templates** - Choose from different resume templates
+- 💾 **Save & Manage** - Save multiple resumes and manage them
+- 📱 **Responsive Design** - Works on desktop and mobile devices
+- 🔄 **Real-time Preview** - See changes as you type
+- 📤 **Export Options** - Export resumes in different formats
 
-Users have the flexibility to customize the template to their specific needs, including adjusting font styles, colors, and section layouts. This allows individuals to personalize their resumes while maintaining a professional and consistent look.
+## Tech Stack
 
-The Codent Resume Builder also offers real-time previews, allowing users to see how their information will appear in the final resume. This feature enables users to make instant changes and ensure that their resumes are polished and error-free.
+### Frontend
+- React 18
+- Material-UI (MUI)
+- React Router DOM
+- Axios
+- React Hook Form
+- React Toastify
 
-By providing a single, meticulously designed template, the Codent Resume Builder ensures that users can create impressive resumes that effectively showcase their qualifications and stand out from the competition. With our user-friendly interface and attention to detail, we aim to empower individuals in their job search and help them present themselves confidently to potential employers.
+### Backend
+- Node.js
+- Express.js
+- MongoDB with Mongoose
+- JWT Authentication
+- bcryptjs for password hashing
+- CORS enabled
+- Helmet for security
 
-## resume-card.jsx
-This code represents a React component called `ResumeCard` that is part of a larger project. It utilizes various hooks and context providers to manage resume data. The component fetches resume data, displays loading spinners while fetching, and renders resume cards with options for previewing, updating, and deleting each resume. It uses `react-router-dom` for navigation and makes API calls to handle the operations. The code demonstrates the use of asynchronous functions, state management with hooks like `useState`, and the useEffect hook for fetching data. The UI is conditionally rendered based on the loading state and the received resume data.
+## Prerequisites
 
-## education.jsx
+- Node.js (v18 or higher)
+- MongoDB (local or Atlas)
+- npm or yarn
 
-This code represents a React component called `EducationInputs` that is used to capture and update education-related information. It utilizes the `useState` hook to manage the state of the education form inputs. The component receives data from a specific context and updates the dirty resume object with the input values when the user clicks the save button. It also displays a success message using the Material-UI `Snackbar` and `Alert` components when the changes are saved successfully. The form includes text input fields for degree, location, university, and a date input field for completion date.
+## Installation
 
-## experience.jsx
+### 1. Clone the repository
+```bash
+git clone <repository-url>
+cd codent-resume-builder
+```
 
-This code represents a React component called ExperienceInputs used for capturing and updating experience-related information. It uses the useState hook to manage the state of the experience form inputs. The component retrieves data from a specific context and updates the dirty resume object with the input values when the user clicks the save button. It also displays a success message using the Material-UI Snackbar and Alert components when the changes are saved successfully. The form includes text input fields for job title, location, and company, as well as date input fields for start and end dates. There's also a textarea for entering responsibilities as comma-separated values.
+### 2. Backend Setup
+```bash
+cd backend
+npm install
+```
 
-## preview.jsx
+Create a `.env` file in the backend directory:
+```env
+PORT=5000
+NODE_ENV=development
+MONGO_URL=mongodb://localhost:27017/resume-builder
+JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+FRONTEND_URL=http://localhost:3000
+```
 
-This code represents a React component called `Preview` that displays a preview of a resume. It uses the `useLocation` hook from `react-router-dom` to retrieve the current location's state, and the `useResumeSpecificContext` hook to access the resume data and related functions. The component fetches resume data based on the state using the `fetchDataById` function upon mounting. The preview includes sections for the profile header, professional summary, employment history, projects, education details, and skills. It dynamically renders the data from the resume object using map functions. The `handlePrint` function allows the user to print the resume. The `getDateInRequiredFormat` function is used to format dates appropriately.
+### 3. Frontend Setup
+```bash
+cd ../frontend
+npm install
+```
 
-## profile.jsx
+### 4. Start the Application
 
-This code represents a React component called `ProfileInputs` that provides input fields to edit and save the profile information of a resume. It uses the `useResumeSpecificContext` hook to access the resume data, state, and related functions. The component initializes the `profileInfo` state with the profile data from the resume. It handles changes in the input fields using the `handleChange` function, which updates the `profileInfo` state accordingly. The `handleSave` function is triggered when the form is submitted, and it updates the `dirtyResume` state with the modified profile information and sets the `isSaved` flag to true. If the save operation is successful, a success alert is displayed. The component also renders input fields for the profile name, address, job title, email, phone, and summary.
+#### Development Mode
+```bash
+# Terminal 1 - Backend
+cd backend
+npm run dev
 
-## project.jsx
+# Terminal 2 - Frontend
+cd frontend
+npm run dev
+```
 
-This code represents a React component called ProjectInputs that allows users to input and save project information for a resume. It utilizes the useResumeSpecificContext hook to access the resume data, state, and related functions. The component initializes the projectInfo state with the project data from the resume. The handleChange function handles changes in the input fields and updates the projectInfo state accordingly. The component renders input fields for project title, start date, end date, project description, and technologies used. When the form is submitted, the handleSave function updates the dirtyResume state with the modified project information and sets the isSaved flag to true. If the save operation is successful, a success alert is displayed.
+#### Production Mode
+```bash
+# Backend
+cd backend
+npm start
 
-## skills.jsx
+# Frontend
+cd frontend
+npm start
+```
 
-This code represents a React component called SkillsInputs that allows users to input and save skills information for a resume. It utilizes the useResumeSpecificContext hook to access the resume data, state, and related functions. The component initializes the skills state with the skills data from the resume. The handleChange function handles changes in the skills input field and updates the skills state accordingly. The handleSave function is triggered when the form is submitted and updates the dirtyResume state with the modified skills data. It also sets the isSaved flag to true. The handleSubmit function is responsible for submitting the updated resume data to the server and navigating to the home page. If the save operation is successful, a success alert is displayed.
+## API Endpoints
 
-# Getting Started with Create React App
+### Authentication
+- `POST /api/users/register` - Register new user
+- `POST /api/users/login` - Login user
+- `GET /api/users/profile` - Get user profile (protected)
+- `PUT /api/users/profile` - Update user profile (protected)
+- `PUT /api/users/change-password` - Change password (protected)
+- `DELETE /api/users/account` - Delete account (protected)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Resumes
+- `GET /api/resumes` - Get user's resumes (protected)
+- `GET /api/resumes/:id` - Get specific resume (protected)
+- `POST /api/resumes` - Create new resume (protected)
+- `PUT /api/resumes/:id` - Update resume (protected)
+- `DELETE /api/resumes/:id` - Delete resume (protected)
+- `POST /api/resumes/:id/duplicate` - Duplicate resume (protected)
+- `GET /api/resumes/public` - Get public resumes
 
-## Available Scripts
+### Health Check
+- `GET /api/health` - API health check
 
-In the project directory, you can run:
+## Project Structure
 
-### `npm start`
+```
+codent-resume-builder/
+├── backend/
+│   ├── config/
+│   │   └── DbConfig.js
+│   ├── controllers/
+│   │   ├── resumeController.js
+│   │   └── userController.js
+│   ├── middleware/
+│   │   └── auth.js
+│   ├── models/
+│   │   ├── Resume.js
+│   │   └── User.js
+│   ├── routes/
+│   │   ├── resumeRoutes.js
+│   │   └── userRoutes.js
+│   ├── app.js
+│   ├── index.js
+│   └── package.json
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── context/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── layout/
+│   │   └── main.jsx
+│   └── package.json
+└── README.md
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Environment Variables
+
+### Backend (.env)
+- `PORT` - Server port (default: 5000)
+- `NODE_ENV` - Environment (development/production)
+- `MONGO_URL` - MongoDB connection string
+- `JWT_SECRET` - Secret key for JWT tokens
+- `FRONTEND_URL` - Frontend URL for CORS
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the ISC License.
+
+## Support
+
+If you encounter any issues or have questions, please open an issue on GitHub.
+
+## Acknowledgments
+
+- Material-UI for the beautiful components
+- React community for the excellent ecosystem
+- MongoDB for the database solution
+
