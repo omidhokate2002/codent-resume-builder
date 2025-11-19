@@ -1,25 +1,21 @@
 import { ResumeCard } from "../apps/home";
-import { Footer, Navigation } from "../layout";
+import { Layout } from "../components/Layout";
 import { useAuth } from "../context/AuthContext";
+import { Button } from "../components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import { 
-  Box, 
-  Container, 
-  Typography, 
-  Button, 
-  Grid, 
-  Card, 
-  CardContent,
-  Chip
-} from '@mui/material';
-import { 
-  Create as CreateIcon,
-  Edit as EditIcon,
-  Download as DownloadIcon,
-  Share as ShareIcon,
-  Security as SecurityIcon,
-  Speed as SpeedIcon,
-  Palette as PaletteIcon
-} from '@mui/icons-material';
+  Sparkles, 
+  FileText, 
+  Download, 
+  Shield, 
+  Zap, 
+  CheckCircle2,
+  Info,
+  ArrowRight,
+  Target,
+  Search,
+  FileCheck
+} from "lucide-react";
 import { Link, useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
@@ -36,319 +32,259 @@ const HomePage = () => {
 
   const features = [
     {
-      icon: <CreateIcon sx={{ fontSize: 40, color: 'var(--primary-500)' }} />,
+      icon: <Sparkles className="h-10 w-10 text-primary-500" />,
       title: "Easy Creation",
-      description: "Create professional resumes in minutes with our intuitive drag-and-drop interface."
+      description: "Create professional resumes in minutes with our intuitive interface."
     },
     {
-      icon: <EditIcon sx={{ fontSize: 40, color: 'var(--secondary-500)' }} />,
+      icon: <FileText className="h-10 w-10 text-secondary-500" />,
       title: "Smart Editing",
       description: "Real-time preview and instant updates as you edit your resume content."
     },
     {
-      icon: <DownloadIcon sx={{ fontSize: 40, color: 'var(--success-500)' }} />,
+      icon: <Download className="h-10 w-10 text-green-500" />,
       title: "Multiple Formats",
-      description: "Export your resume in PDF, Word, or HTML formats for any application."
+      description: "Export your resume in PDF and Word formats for any application."
     },
     {
-      icon: <ShareIcon sx={{ fontSize: 40, color: 'var(--warning-500)' }} />,
-      title: "Easy Sharing",
-      description: "Share your resume with potential employers via direct links or downloads."
-    },
-    {
-      icon: <SecurityIcon sx={{ fontSize: 40, color: 'var(--error-500)' }} />,
+      icon: <Shield className="h-10 w-10 text-red-500" />,
       title: "Secure & Private",
       description: "Your data is encrypted and secure. We never share your personal information."
     },
     {
-      icon: <SpeedIcon sx={{ fontSize: 40, color: 'var(--primary-600)' }} />,
+      icon: <Zap className="h-10 w-10 text-primary-600" />,
       title: "Lightning Fast",
-      description: "Optimized for speed with instant saves and real-time collaboration."
+      description: "Optimized for speed with instant saves and real-time updates."
+    },
+    {
+      icon: <Target className="h-10 w-10 text-purple-500" />,
+      title: "ATS Optimized",
+      description: "All templates are designed to pass Applicant Tracking Systems with ease."
     }
   ];
 
+  const atsFeatures = [
+    "Clean, simple formatting that ATS systems can easily parse",
+    "Standard section headers (Experience, Education, Skills)",
+    "Keyword optimization suggestions",
+    "No complex graphics or tables that confuse scanners",
+    "Proper date formatting and consistent structure",
+    "Compatible with major ATS platforms (Workday, Taleo, Greenhouse, etc.)"
+  ];
+
   return (
-    <Box sx={{ minHeight: '100vh', background: 'linear-gradient(135deg, var(--primary-50) 0%, var(--secondary-50) 100%)' }}>
-      <Navigation />
-      
+    <Layout>
       {/* Hero Section */}
-      <Box
-        sx={{
-          background: 'linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(217, 70, 239, 0.1) 100%)',
-          py: { xs: 8, md: 12 },
-          position: 'relative',
-          overflow: 'hidden'
-        }}
-      >
-        <Container maxWidth="lg">
-          <Grid container spacing={6} alignItems="center">
-            <Grid item xs={12} md={6}>
-              <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
-                <Chip
-                  label="✨ Professional Resume Builder"
-                  color="primary"
-                  sx={{ 
-                    mb: 3,
-                    borderRadius: '20px',
-                    background: 'linear-gradient(135deg, var(--primary-500) 0%, var(--secondary-500) 100%)',
-                    color: 'white',
-                    fontWeight: 600
-                  }}
-                />
-                <Typography
-                  variant="h1"
-                  sx={{
-                    fontSize: { xs: '2.5rem', md: '3.5rem' },
-                    fontWeight: 800,
-                    lineHeight: 1.2,
-                    mb: 3,
-                    background: 'linear-gradient(135deg, var(--primary-600) 0%, var(--secondary-600) 100%)',
-                    backgroundClip: 'text',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent'
-                  }}
+      <section className="relative py-12 md:py-20 overflow-hidden bg-gradient-to-br from-primary-50 via-secondary-50 to-primary-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div className="text-center md:text-left space-y-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary-500 to-secondary-500 text-white text-sm font-semibold mb-4">
+                <Sparkles className="h-4 w-4" />
+                Professional Resume Builder
+              </div>
+              
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
+                <span className="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent dark:from-primary-400 dark:to-secondary-400">
+                  Create Stunning Resumes
+                </span>
+                <br />
+                <span className="text-gray-900 dark:text-white">
+                  That Get You Hired
+                </span>
+              </h1>
+              
+              <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
+                Build professional resumes with our modern, ATS-friendly templates. 
+                Stand out from the crowd and land your dream job.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                <Button
+                  onClick={handleGetStarted}
+                  size="lg"
+                  className="text-lg px-8 py-6 h-auto"
                 >
-                  Create Stunning Resumes That Get You Hired
-                </Typography>
-                <Typography
-                  variant="h5"
-                  sx={{
-                    color: 'var(--neutral-600)',
-                    mb: 4,
-                    lineHeight: 1.6,
-                    fontWeight: 400
-                  }}
+                  {isAuthenticated ? 'Create Resume' : 'Get Started Free'}
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  asChild
+                  className="text-lg px-8 py-6 h-auto"
                 >
-                  Build professional resumes with our modern, customizable templates. 
-                  Stand out from the crowd and land your dream job.
-                </Typography>
-                <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: { xs: 'center', md: 'flex-start' } }}>
-                  <Button
-                    onClick={handleGetStarted}
-                    variant="contained"
-                    size="large"
-                    startIcon={<CreateIcon />}
-                    sx={{
-                      px: 4,
-                      py: 2,
-                      borderRadius: '16px',
-                      fontSize: '1.1rem',
-                      fontWeight: 600,
-                      background: 'linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%)',
-                      boxShadow: '0 8px 25px rgba(14, 165, 233, 0.3)',
-                      '&:hover': {
-                        background: 'linear-gradient(135deg, var(--primary-600) 0%, var(--primary-700) 100%)',
-                        transform: 'translateY(-3px)',
-                        boxShadow: '0 12px 35px rgba(14, 165, 233, 0.4)'
-                      },
-                      transition: 'all 0.3s ease'
-                    }}
-                  >
-                    {isAuthenticated ? 'Create Resume' : 'Get Started Free'}
-                  </Button>
-                  <Button
-                    component={Link}
-                    to="/about"
-                    variant="outlined"
-                    size="large"
-                    sx={{
-                      px: 4,
-                      py: 2,
-                      borderRadius: '16px',
-                      fontSize: '1.1rem',
-                      fontWeight: 600,
-                      borderColor: 'var(--neutral-300)',
-                      color: 'var(--neutral-700)',
-                      '&:hover': {
-                        borderColor: 'var(--primary-500)',
-                        color: 'var(--primary-600)',
-                        background: 'rgba(14, 165, 233, 0.05)'
-                      }
-                    }}
-                  >
-                    Learn More
-                  </Button>
-                </Box>
-              </Box>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Box
-                sx={{
-                  background: 'rgba(255, 255, 255, 0.8)',
-                  borderRadius: '24px',
-                  p: 4,
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255, 255, 255, 0.3)',
-                  boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)',
-                  position: 'relative',
-                  '&::before': {
-                    content: '""',
-                    position: 'absolute',
-                    top: -2,
-                    left: -2,
-                    right: -2,
-                    bottom: -2,
-                    background: 'linear-gradient(135deg, var(--primary-500), var(--secondary-500))',
-                    borderRadius: '26px',
-                    zIndex: -1,
-                    opacity: 0.3
-                  }
-                }}
-              >
-                <Box
-                  sx={{
-                    width: '100%',
-                    height: 300,
-                    background: 'linear-gradient(135deg, var(--primary-100) 0%, var(--secondary-100) 100%)',
-                    borderRadius: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    position: 'relative',
-                    overflow: 'hidden'
-                  }}
-                >
-                  <PaletteIcon sx={{ fontSize: 80, color: 'var(--primary-400)', opacity: 0.6 }} />
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      top: '20%',
-                      left: '20%',
-                      width: 60,
-                      height: 60,
-                      background: 'var(--secondary-300)',
-                      borderRadius: '50%',
-                      opacity: 0.4
-                    }}
-                  />
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      bottom: '30%',
-                      right: '15%',
-                      width: 40,
-                      height: 40,
-                      background: 'var(--primary-300)',
-                      borderRadius: '50%',
-                      opacity: 0.4
-                    }}
-                  />
-                </Box>
-              </Box>
-            </Grid>
-          </Grid>
-        </Container>
-      </Box>
+                  <Link to="/about">Learn More</Link>
+                </Button>
+              </div>
+            </div>
+            
+            <div className="relative">
+              <div className="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-3xl p-8 border border-white/30 dark:border-gray-700 shadow-2xl">
+                <div className="aspect-square bg-gradient-to-br from-primary-100 to-secondary-100 dark:from-primary-900/30 dark:to-secondary-900/30 rounded-2xl flex items-center justify-center">
+                  <FileText className="h-32 w-32 text-primary-400 opacity-60" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ATS-Friendly Section */}
+      <section className="py-16 md:py-24 bg-white dark:bg-gray-900">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 mb-4">
+              <CheckCircle2 className="h-5 w-5" />
+              <span className="font-semibold">ATS-Friendly Templates</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              What is ATS and Why Does It Matter?
+            </h2>
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              Applicant Tracking Systems (ATS) are software used by employers to filter resumes before they reach human recruiters. 
+              Our templates are specifically designed to pass these systems.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <Card className="border-2 border-primary-200 dark:border-primary-800">
+              <CardHeader>
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-3 rounded-lg bg-primary-100 dark:bg-primary-900/30">
+                    <Search className="h-6 w-6 text-primary-600 dark:text-primary-400" />
+                  </div>
+                  <CardTitle className="text-xl">How ATS Works</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  When you submit your resume online, it first goes through an ATS that scans for keywords, 
+                  skills, and qualifications. If your resume isn't formatted correctly, it might be rejected 
+                  before a human ever sees it.
+                </p>
+                <ul className="space-y-2">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-600 dark:text-gray-300">Scans for relevant keywords</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-600 dark:text-gray-300">Extracts contact information</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-600 dark:text-gray-300">Parses work history and education</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card className="border-2 border-secondary-200 dark:border-secondary-800">
+              <CardHeader>
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-3 rounded-lg bg-secondary-100 dark:bg-secondary-900/30">
+                    <Target className="h-6 w-6 text-secondary-600 dark:text-secondary-400" />
+                  </div>
+                  <CardTitle className="text-xl">Why It Matters</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  Studies show that up to 75% of resumes are rejected by ATS before reaching a recruiter. 
+                  Using an ATS-friendly format dramatically increases your chances of getting noticed.
+                </p>
+                <ul className="space-y-2">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-600 dark:text-gray-300">Higher chance of passing initial screening</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-600 dark:text-gray-300">Better keyword matching</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-600 dark:text-gray-300">More interview opportunities</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+
+          <Card className="bg-gradient-to-br from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 border-2 border-primary-200 dark:border-primary-800">
+            <CardHeader>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-3 rounded-lg bg-primary-500 dark:bg-primary-600">
+                  <FileCheck className="h-6 w-6 text-white" />
+                </div>
+                <CardTitle className="text-2xl">Our ATS-Friendly Features</CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {atsFeatures.map((feature, index) => (
+                  <div key={index} className="flex items-start gap-3">
+                    <CheckCircle2 className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-700 dark:text-gray-300">{feature}</span>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
 
       {/* Features Section */}
-      <Box sx={{ py: { xs: 8, md: 12 } }}>
-        <Container maxWidth="lg">
-          <Box sx={{ textAlign: 'center', mb: 8 }}>
-            <Typography
-              variant="h2"
-              sx={{
-                fontSize: { xs: '2rem', md: '2.5rem' },
-                fontWeight: 700,
-                mb: 2,
-                color: 'var(--neutral-900)'
-              }}
-            >
+      <section className="py-16 md:py-24 bg-gray-50 dark:bg-gray-800/50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
               Why Choose Our Resume Builder?
-            </Typography>
-            <Typography
-              variant="h6"
-              sx={{
-                color: 'var(--neutral-600)',
-                maxWidth: 600,
-                mx: 'auto'
-              }}
-            >
+            </h2>
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Everything you need to create a professional resume that stands out
-            </Typography>
-          </Box>
+            </p>
+          </div>
           
-          <Grid container spacing={4}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((feature, index) => (
-              <Grid item xs={12} sm={6} md={4} key={index}>
-                <Card
-                  sx={{
-                    height: '100%',
-                    borderRadius: '20px',
-                    background: 'rgba(255, 255, 255, 0.8)',
-                    backdropFilter: 'blur(20px)',
-                    border: '1px solid rgba(255, 255, 255, 0.3)',
-                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      transform: 'translateY(-8px)',
-                      boxShadow: '0 20px 40px rgba(0, 0, 0, 0.15)'
-                    }
-                  }}
-                >
-                  <CardContent sx={{ p: 4, textAlign: 'center' }}>
-                    <Box sx={{ mb: 3 }}>
-                      {feature.icon}
-                    </Box>
-                    <Typography
-                      variant="h5"
-                      sx={{
-                        fontWeight: 600,
-                        mb: 2,
-                        color: 'var(--neutral-900)'
-                      }}
-                    >
-                      {feature.title}
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        color: 'var(--neutral-600)',
-                        lineHeight: 1.6
-                      }}
-                    >
-                      {feature.description}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
+              <Card key={index} className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <div className="mb-4">
+                    {feature.icon}
+                  </div>
+                  <CardTitle className="text-xl">{feature.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription className="text-base">
+                    {feature.description}
+                  </CardDescription>
+                </CardContent>
+              </Card>
             ))}
-          </Grid>
-        </Container>
-      </Box>
+          </div>
+        </div>
+      </section>
 
       {/* Resume Cards Section */}
-      <Box sx={{ py: { xs: 8, md: 12 }, background: 'rgba(255, 255, 255, 0.5)' }}>
-        <Container maxWidth="lg">
-          <Box sx={{ textAlign: 'center', mb: 8 }}>
-            <Typography
-              variant="h2"
-              sx={{
-                fontSize: { xs: '2rem', md: '2.5rem' },
-                fontWeight: 700,
-                mb: 2,
-                color: 'var(--neutral-900)'
-              }}
-            >
-              Your Previous Resumes
-            </Typography>
-            <Typography
-              variant="h6"
-              sx={{
-                color: 'var(--neutral-600)',
-                maxWidth: 600,
-                mx: 'auto'
-              }}
-            >
-              Continue working on your existing resumes or create a new one
-            </Typography>
-          </Box>
-          
-          <ResumeCard />
-        </Container>
-      </Box>
-
-      <Footer />
-    </Box>
+      {isAuthenticated && (
+        <section className="py-16 md:py-24 bg-white dark:bg-gray-900">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                Your Previous Resumes
+              </h2>
+              <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                Continue working on your existing resumes or create a new one
+              </p>
+            </div>
+            
+            <ResumeCard />
+          </div>
+        </section>
+      )}
+    </Layout>
   );
 };
 

@@ -3,44 +3,32 @@ import { useResumeContext } from "../../context/resume-context";
 import { useResumeSpecificContext } from "../../context";
 import { useAuth } from "../../context/AuthContext";
 import { useEffect, useState } from "react";
+import { Button } from "../../components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { 
-  Box, 
-  Card, 
-  CardContent, 
-  Typography, 
-  Button, 
-  Chip, 
-  Grid,
-  Skeleton,
-
-  IconButton,
-  Tooltip
-} from '@mui/material';
-import { 
-  Visibility as PreviewIcon,
-  Edit as EditIcon,
-  Delete as DeleteIcon,
-  Description as ResumeIcon,
-  CalendarToday as DateIcon,
-  Work as WorkIcon
-} from '@mui/icons-material';
+  Eye, 
+  Edit, 
+  Trash2, 
+  FileText, 
+  Calendar, 
+  Briefcase,
+  Loader2
+} from "lucide-react";
+import { resumeAPI } from "../../services/api";
+import { toast } from "react-toastify";
 
 export const ResumeCard = () => {
   const resumeContext = useResumeContext();
   const resumeSpecificContext = useResumeSpecificContext();
   const { isAuthenticated } = useAuth();
   const [isDeleted, setIsDeleted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Safety checks for context
   const resumeData = Array.isArray(resumeContext?.resumeData) ? resumeContext.resumeData : [];
   const isLoading = resumeContext?.isLoading || false;
-  const fetchData = resumeContext?.fetchData || (() => {
-    console.warn('fetchData not available from context');
-  });
-  const fetchDataById = resumeSpecificContext?.fetchDataById || (() => {
-    console.warn('fetchDataById not available from context');
-  });
+  const fetchData = resumeContext?.fetchData || (() => {});
+  const fetchDataById = resumeSpecificContext?.fetchDataById || (() => {});
 
   const handleUpdate = async (resumeId) => {
     if (fetchDataById) {
@@ -63,296 +51,173 @@ export const ResumeCard = () => {
   const handleDelete = async (resumeId) => {
     if (window.confirm("Are you sure you want to delete this resume? This action cannot be undone.")) {
       try {
+        setLoading(true);
         setIsDeleted(true);
-        await fetch(`/resume/${resumeId}`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-          .then((res) => res.json())
-          .then((data) => console.log(data));
+        await resumeAPI.deleteResume(resumeId);
+        toast.success('Resume deleted successfully');
+        if (fetchData) {
+          await fetchData();
+        }
       } catch (error) {
-        console.log(error);
+        console.error('Delete error:', error);
+        toast.error('Failed to delete resume');
       } finally {
         setIsDeleted(false);
+        setLoading(false);
       }
     }
   };
 
   useEffect(() => {
-    if (fetchData) {
+    if (fetchData && isAuthenticated) {
       fetchData();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDeleted]);
+  }, [isDeleted, isAuthenticated, fetchData]);
 
   if (isLoading) {
     return (
-      <Grid container spacing={3}>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {[1, 2, 3].map((item) => (
-          <Grid item xs={12} md={6} lg={4} key={item}>
-            <Card sx={{ borderRadius: '20px', overflow: 'hidden' }}>
-              <CardContent sx={{ p: 4 }}>
-                <Skeleton variant="text" width="60%" height={32} sx={{ mb: 2 }} />
-                <Skeleton variant="text" width="100%" height={20} sx={{ mb: 1 }} />
-                <Skeleton variant="text" width="80%" height={20} sx={{ mb: 3 }} />
-                <Box sx={{ display: 'flex', gap: 1, mb: 3 }}>
-                  <Skeleton variant="rectangular" width={80} height={32} sx={{ borderRadius: '16px' }} />
-                  <Skeleton variant="rectangular" width={60} height={32} sx={{ borderRadius: '16px' }} />
-                </Box>
-                <Box sx={{ display: 'flex', gap: 1 }}>
-                  <Skeleton variant="rectangular" width={100} height={40} sx={{ borderRadius: '12px' }} />
-                  <Skeleton variant="rectangular" width={100} height={40} sx={{ borderRadius: '12px' }} />
-                  <Skeleton variant="rectangular" width={100} height={40} sx={{ borderRadius: '12px' }} />
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
+          <Card key={item} className="animate-pulse">
+            <CardHeader className="bg-gradient-to-r from-primary-500 to-primary-600 text-white">
+              <div className="h-6 bg-white/20 rounded w-3/4"></div>
+              <div className="h-4 bg-white/20 rounded w-1/2 mt-2"></div>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full mb-2"></div>
+              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6 mb-4"></div>
+              <div className="flex gap-2 mb-4">
+                <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-20"></div>
+                <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-24"></div>
+              </div>
+              <div className="flex gap-2">
+                <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded w-20"></div>
+                <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded w-20"></div>
+                <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded w-20"></div>
+              </div>
+            </CardContent>
+          </Card>
         ))}
-      </Grid>
+      </div>
     );
   }
 
-  // Redirect to login if not authenticated
   if (!isAuthenticated) {
     return (
-      <Box sx={{ textAlign: 'center', py: 8 }}>
-        <Box
-          sx={{
-            width: 120,
-            height: 120,
-            borderRadius: '50%',
-            background: 'linear-gradient(135deg, var(--primary-100) 0%, var(--secondary-100) 100%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            mx: 'auto',
-            mb: 3
-          }}
-        >
-          <ResumeIcon sx={{ fontSize: 60, color: 'var(--primary-500)' }} />
-        </Box>
-        <Typography variant="h5" sx={{ mb: 2, color: 'var(--neutral-700)' }}>
+      <div className="text-center py-12">
+        <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary-100 to-secondary-100 dark:from-primary-900/30 dark:to-secondary-900/30 flex items-center justify-center mx-auto mb-6">
+          <FileText className="h-16 w-16 text-primary-500" />
+        </div>
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
           Please Login to Continue
-        </Typography>
-        <Typography variant="body1" sx={{ color: 'var(--neutral-600)', mb: 4 }}>
+        </h3>
+        <p className="text-gray-600 dark:text-gray-300 mb-6">
           You need to be logged in to view and manage your resumes
-        </Typography>
+        </p>
         <Button
-          variant="contained"
-          size="large"
+          size="lg"
           onClick={() => navigate('/login')}
-          sx={{
-            borderRadius: '16px',
-            px: 4,
-            py: 2,
-            background: 'linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%)',
-            boxShadow: '0 8px 25px rgba(14, 165, 233, 0.3)',
-            '&:hover': {
-              background: 'linear-gradient(135deg, var(--primary-600) 0%, var(--primary-700) 100%)',
-              transform: 'translateY(-2px)',
-              boxShadow: '0 12px 35px rgba(14, 165, 233, 0.4)'
-            },
-            transition: 'all 0.3s ease'
-          }}
         >
           Login
         </Button>
-      </Box>
+      </div>
     );
   }
 
   if (resumeData.length === 0) {
     return (
-      <Box sx={{ textAlign: 'center', py: 8 }}>
-        <Box
-          sx={{
-            width: 120,
-            height: 120,
-            borderRadius: '50%',
-            background: 'linear-gradient(135deg, var(--primary-100) 0%, var(--secondary-100) 100%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            mx: 'auto',
-            mb: 3
-          }}
-        >
-          <ResumeIcon sx={{ fontSize: 60, color: 'var(--primary-500)' }} />
-        </Box>
-        <Typography variant="h5" sx={{ mb: 2, color: 'var(--neutral-700)' }}>
+      <div className="text-center py-12">
+        <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary-100 to-secondary-100 dark:from-primary-900/30 dark:to-secondary-900/30 flex items-center justify-center mx-auto mb-6">
+          <FileText className="h-16 w-16 text-primary-500" />
+        </div>
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
           No Resumes Yet
-        </Typography>
-        <Typography variant="body1" sx={{ color: 'var(--neutral-600)', mb: 4 }}>
+        </h3>
+        <p className="text-gray-600 dark:text-gray-300 mb-6">
           Create your first professional resume to get started
-        </Typography>
+        </p>
         <Button
-          variant="contained"
-          size="large"
-          startIcon={<EditIcon />}
+          size="lg"
           onClick={() => navigate('/resume')}
-          sx={{
-            borderRadius: '16px',
-            px: 4,
-            py: 2,
-            background: 'linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%)',
-            boxShadow: '0 8px 25px rgba(14, 165, 233, 0.3)',
-            '&:hover': {
-              background: 'linear-gradient(135deg, var(--primary-600) 0%, var(--primary-700) 100%)',
-              transform: 'translateY(-2px)',
-              boxShadow: '0 12px 35px rgba(14, 165, 233, 0.4)'
-            },
-            transition: 'all 0.3s ease'
-          }}
         >
+          <Edit className="mr-2 h-5 w-5" />
           Create Your First Resume
         </Button>
-      </Box>
+      </div>
     );
   }
 
   return (
-    <Grid container spacing={3}>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {resumeData.map((resume) => (
-        <Grid item xs={12} md={6} lg={4} key={resume.id}>
-          <Card
-            sx={{
-              borderRadius: '20px',
-              background: 'rgba(255, 255, 255, 0.9)',
-              backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-              overflow: 'hidden',
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                transform: 'translateY(-8px)',
-                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.15)'
-              }
-            }}
-          >
-            <Box
-              sx={{
-                background: 'linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%)',
-                p: 3,
-                color: 'white'
-              }}
-            >
-              <Typography
-                variant="h6"
-                sx={{
-                  fontWeight: 600,
-                  mb: 1,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 1
-                }}
-              >
-                <ResumeIcon sx={{ fontSize: 24 }} />
+        <Card 
+          key={resume.id}
+          className="hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-200 dark:border-gray-700"
+        >
+          <CardHeader className="bg-gradient-to-r from-primary-500 to-primary-600 text-white">
+            <div className="flex items-center gap-2 mb-2">
+              <FileText className="h-6 w-6" />
+              <CardTitle className="text-lg">
                 {resume.profile?.title || 'Untitled Resume'}
-              </Typography>
-              <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                {resume.profile?.profileName || 'No name specified'}
-              </Typography>
-            </Box>
-            
-            <CardContent sx={{ p: 4 }}>
-              <Typography
-                variant="body2"
-                sx={{
-                  color: 'var(--neutral-600)',
-                  mb: 3,
-                  lineHeight: 1.6,
-                  display: '-webkit-box',
-                  WebkitLineClamp: 3,
-                  WebkitBoxOrient: 'vertical',
-                  overflow: 'hidden'
-                }}
+              </CardTitle>
+            </div>
+            <p className="text-sm text-white/90">
+              {resume.profile?.profileName || 'No name specified'}
+            </p>
+          </CardHeader>
+          
+          <CardContent className="p-6">
+            <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
+              {resume.profile?.summary || 'No summary available'}
+            </p>
+
+            <div className="flex flex-wrap gap-2 mb-4">
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300">
+                <Briefcase className="h-3 w-3" />
+                {resume.experience?.length || 0} Experience{resume.experience?.length !== 1 ? 's' : ''}
+              </span>
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300">
+                <Calendar className="h-3 w-3" />
+                Recently Updated
+              </span>
+            </div>
+
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handlePreview(resume.id)}
+                className="flex-1"
               >
-                {resume.profile?.summary || 'No summary available'}
-              </Typography>
-
-              <Box sx={{ mb: 3 }}>
-                <Chip
-                  icon={<WorkIcon />}
-                  label={`${resume.experience?.length || 0} Experience${resume.experience?.length !== 1 ? 's' : ''}`}
-                  size="small"
-                  sx={{
-                    mr: 1,
-                    mb: 1,
-                    background: 'rgba(14, 165, 233, 0.1)',
-                    color: 'var(--primary-600)',
-                    borderRadius: '12px'
-                  }}
-                />
-                <Chip
-                  icon={<DateIcon />}
-                  label="Recently Updated"
-                  size="small"
-                  sx={{
-                    background: 'rgba(34, 197, 94, 0.1)',
-                    color: 'var(--success-600)',
-                    borderRadius: '12px'
-                  }}
-                />
-              </Box>
-
-              <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-                <Tooltip title="Preview Resume">
-                  <IconButton
-                    onClick={() => handlePreview(resume.id)}
-                    sx={{
-                      background: 'rgba(14, 165, 233, 0.1)',
-                      color: 'var(--primary-600)',
-                      '&:hover': {
-                        background: 'rgba(14, 165, 233, 0.2)',
-                        transform: 'scale(1.05)'
-                      },
-                      transition: 'all 0.2s ease'
-                    }}
-                  >
-                    <PreviewIcon />
-                  </IconButton>
-                </Tooltip>
-                
-                <Tooltip title="Edit Resume">
-                  <IconButton
-                    onClick={() => handleUpdate(resume?.id)}
-                    sx={{
-                      background: 'rgba(34, 197, 94, 0.1)',
-                      color: 'var(--success-600)',
-                      '&:hover': {
-                        background: 'rgba(34, 197, 94, 0.2)',
-                        transform: 'scale(1.05)'
-                      },
-                      transition: 'all 0.2s ease'
-                    }}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                </Tooltip>
-                
-                <Tooltip title="Delete Resume">
-                  <IconButton
-                    onClick={() => handleDelete(resume.id)}
-                    sx={{
-                      background: 'rgba(239, 68, 68, 0.1)',
-                      color: 'var(--error-600)',
-                      '&:hover': {
-                        background: 'rgba(239, 68, 68, 0.2)',
-                        transform: 'scale(1.05)'
-                      },
-                      transition: 'all 0.2s ease'
-                    }}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </Tooltip>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
+                <Eye className="h-4 w-4 mr-1" />
+                Preview
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleUpdate(resume?.id)}
+                className="flex-1"
+              >
+                <Edit className="h-4 w-4 mr-1" />
+                Edit
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleDelete(resume.id)}
+                disabled={loading}
+                className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20"
+              >
+                {loading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Trash2 className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       ))}
-    </Grid>
+    </div>
   );
 };

@@ -1,30 +1,16 @@
-import { Box } from '@mui/material';
 import { Navigation, Footer } from '../layout';
 
 // Unified layout component for consistent design
 export const Layout = ({ children, fullWidth = false, removeNavigation = false, removeFooter = false }) => {
   return (
-    <Box 
-      sx={{ 
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        background: 'linear-gradient(135deg, var(--primary-50) 0%, var(--secondary-50) 100%)'
-      }}
-    >
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-primary-50 via-secondary-50 to-primary-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       {!removeNavigation && <Navigation />}
       
-      <Box 
-        component="main" 
-        sx={{ 
-          flexGrow: 1,
-          width: fullWidth ? '100%' : 'auto'
-        }}
-      >
+      <main className={`flex-grow ${fullWidth ? 'w-full' : ''}`}>
         {children}
-      </Box>
+      </main>
       
       {!removeFooter && <Footer />}
-    </Box>
+    </div>
   );
 };

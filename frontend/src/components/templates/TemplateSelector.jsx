@@ -1,47 +1,31 @@
 import { useState } from 'react';
-import {
-  Box,
-  Typography,
-  Grid,
-  Card,
-  CardContent,
-  CardMedia,
-  Button,
-  Chip,
-  Tabs,
-  Tab,
-  Badge,
-  Paper,
-  IconButton,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions
-} from '@mui/material';
-import {
-  Code as CodeIcon,
-  Business as BusinessIcon,
-  Brush as CreativeIcon,
-  LocalHospital as HealthcareIcon,
-  School as EducationIcon,
-  AccountBalance as FinanceIcon,
-  Campaign as MarketingIcon,
-  Description as GeneralIcon,
-  Visibility as PreviewIcon,
-  CheckCircle as ATSIcon,
-  Star as StarIcon
-} from '@mui/icons-material';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Button } from '../ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
+import { 
+  Code, 
+  Briefcase, 
+  Palette, 
+  Heart, 
+  GraduationCap, 
+  DollarSign, 
+  Megaphone,
+  FileText,
+  Eye,
+  CheckCircle2,
+  Star
+} from 'lucide-react';
 import { TEMPLATE_CATEGORIES, getTemplatesByCategory } from './TemplateRegistry';
 
 const categoryIcons = {
-  [TEMPLATE_CATEGORIES.TECH]: <CodeIcon />,
-  [TEMPLATE_CATEGORIES.BUSINESS]: <BusinessIcon />,
-  [TEMPLATE_CATEGORIES.CREATIVE]: <CreativeIcon />,
-  [TEMPLATE_CATEGORIES.HEALTHCARE]: <HealthcareIcon />,
-  [TEMPLATE_CATEGORIES.EDUCATION]: <EducationIcon />,
-  [TEMPLATE_CATEGORIES.FINANCE]: <FinanceIcon />,
-  [TEMPLATE_CATEGORIES.MARKETING]: <MarketingIcon />,
-  [TEMPLATE_CATEGORIES.GENERAL]: <GeneralIcon />
+  [TEMPLATE_CATEGORIES.TECH]: <Code className="h-5 w-5" />,
+  [TEMPLATE_CATEGORIES.BUSINESS]: <Briefcase className="h-5 w-5" />,
+  [TEMPLATE_CATEGORIES.CREATIVE]: <Palette className="h-5 w-5" />,
+  [TEMPLATE_CATEGORIES.HEALTHCARE]: <Heart className="h-5 w-5" />,
+  [TEMPLATE_CATEGORIES.EDUCATION]: <GraduationCap className="h-5 w-5" />,
+  [TEMPLATE_CATEGORIES.FINANCE]: <DollarSign className="h-5 w-5" />,
+  [TEMPLATE_CATEGORIES.MARKETING]: <Megaphone className="h-5 w-5" />,
+  [TEMPLATE_CATEGORIES.GENERAL]: <FileText className="h-5 w-5" />
 };
 
 const categoryNames = {
@@ -59,252 +43,180 @@ export const TemplateSelector = ({ selectedTemplate, onTemplateSelect, onClose }
   const [activeCategory, setActiveCategory] = useState(TEMPLATE_CATEGORIES.GENERAL);
   const [previewTemplate, setPreviewTemplate] = useState(null);
 
-  const handleCategoryChange = (event, newCategory) => {
-    setActiveCategory(newCategory);
-  };
-
   const handleTemplateSelect = (template) => {
     onTemplateSelect(template);
     if (onClose) onClose();
   };
 
-  const handlePreview = (template) => {
-    setPreviewTemplate(template);
-  };
-
   const renderTemplateCard = (template) => (
-    <Grid item xs={12} sm={6} md={4} key={template.id}>
-      <Card
-        sx={{
-          height: '100%',
-          cursor: 'pointer',
-          transition: 'all 0.3s ease',
-          border: selectedTemplate?.id === template.id ? '2px solid var(--primary-500)' : '2px solid transparent',
-          '&:hover': {
-            transform: 'translateY(-4px)',
-            boxShadow: '0 12px 28px rgba(0, 0, 0, 0.15)'
-          }
-        }}
-        onClick={() => handleTemplateSelect(template)}
-      >
-        <Box sx={{ position: 'relative' }}>
-          <CardMedia
-            component="div"
-            sx={{
-              height: 200,
-              background: 'linear-gradient(135deg, var(--primary-100) 0%, var(--secondary-100) 100%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              position: 'relative'
+    <Card
+      key={template.id}
+      onClick={() => handleTemplateSelect(template)}
+      className={`cursor-pointer transition-all hover:scale-105 ${
+        selectedTemplate?.id === template.id
+          ? 'border-2 border-primary-500 bg-primary-900/20'
+          : 'bg-gray-800/50 border-gray-700 hover:border-gray-600'
+      }`}
+    >
+      <div className="relative">
+        <div className="h-48 bg-gradient-to-br from-primary-500/20 to-secondary-500/20 flex items-center justify-center relative">
+          <FileText className="h-16 w-16 text-primary-400 opacity-50" />
+          {template.isATSFriendly && (
+            <div className="absolute top-2 right-2 flex items-center gap-1 px-2 py-1 bg-green-600 rounded-full text-white text-xs font-semibold">
+              <CheckCircle2 className="h-3 w-3" />
+              ATS {template.atsScore}%
+            </div>
+          )}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setPreviewTemplate(template);
             }}
+            className="absolute top-2 left-2 p-2 bg-gray-800/80 rounded-lg hover:bg-gray-700 text-white"
           >
-            <Typography variant="h6" sx={{ color: 'var(--primary-600)' }}>
-              {template.name}
-            </Typography>
-            
-            {/* ATS Badge */}
-            {template.isATSFriendly && (
-              <Chip
-                icon={<ATSIcon />}
-                label={`ATS ${template.atsScore}%`}
-                size="small"
-                color="success"
-                sx={{
-                  position: 'absolute',
-                  top: 8,
-                  right: 8,
-                  fontWeight: 600
-                }}
-              />
-            )}
-            
-            {/* Preview Button */}
-            <IconButton
-              onClick={(e) => {
-                e.stopPropagation();
-                handlePreview(template);
-              }}
-              sx={{
-                position: 'absolute',
-                top: 8,
-                left: 8,
-                background: 'rgba(255, 255, 255, 0.9)',
-                '&:hover': {
-                  background: 'rgba(255, 255, 255, 1)'
-                }
-              }}
-            >
-              <PreviewIcon />
-            </IconButton>
-          </CardMedia>
-        </Box>
+            <Eye className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+      
+      <CardHeader>
+        <CardTitle className="text-white text-lg">{template.name}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p className="text-gray-400 text-sm mb-4 line-clamp-2">{template.description}</p>
         
-        <CardContent>
-          <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
-            {template.name}
-          </Typography>
-          
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-            {template.description}
-          </Typography>
-          
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 2 }}>
-            {template.features.slice(0, 2).map((feature, index) => (
-              <Chip
-                key={index}
-                label={feature}
-                size="small"
-                variant="outlined"
-                sx={{ fontSize: '0.75rem' }}
-              />
-            ))}
-            {template.features.length > 2 && (
-              <Chip
-                label={`+${template.features.length - 2} more`}
-                size="small"
-                variant="outlined"
-                sx={{ fontSize: '0.75rem', opacity: 0.7 }}
-              />
-            )}
-          </Box>
-          
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Badge
-              badgeContent={template.atsScore}
-              color="primary"
-              sx={{
-                '& .MuiBadge-badge': {
-                  fontSize: '0.75rem',
-                  fontWeight: 600
-                }
-              }}
+        <div className="flex flex-wrap gap-2 mb-4">
+          {template.features?.slice(0, 2).map((feature, index) => (
+            <span
+              key={index}
+              className="px-2 py-1 bg-gray-700 rounded text-xs text-gray-300"
             >
-              <StarIcon sx={{ color: 'var(--warning-500)' }} />
-            </Badge>
-            
-            <Button
-              variant={selectedTemplate?.id === template.id ? "contained" : "outlined"}
-              size="small"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleTemplateSelect(template);
-              }}
-            >
-              {selectedTemplate?.id === template.id ? 'Selected' : 'Select'}
-            </Button>
-          </Box>
-        </CardContent>
-      </Card>
-    </Grid>
+              {feature}
+            </span>
+          ))}
+          {template.features?.length > 2 && (
+            <span className="px-2 py-1 bg-gray-700 rounded text-xs text-gray-500">
+              +{template.features.length - 2} more
+            </span>
+          )}
+        </div>
+        
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1 text-yellow-400">
+            <Star className="h-4 w-4 fill-current" />
+            <span className="text-sm font-semibold">{template.atsScore}</span>
+          </div>
+          
+          <Button
+            variant={selectedTemplate?.id === template.id ? "default" : "outline"}
+            size="sm"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleTemplateSelect(template);
+            }}
+            className={
+              selectedTemplate?.id === template.id
+                ? 'bg-primary-600 hover:bg-primary-700'
+                : 'border-gray-600 text-gray-300 hover:bg-gray-700'
+            }
+          >
+            {selectedTemplate?.id === template.id ? 'Selected' : 'Select'}
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 
   return (
-    <Box>
+    <div className="space-y-6">
       {/* Header */}
-      <Box sx={{ mb: 4, textAlign: 'center' }}>
-        <Typography variant="h4" sx={{ fontWeight: 700, mb: 2 }}>
-          Choose Your Resume Template
-        </Typography>
-        <Typography variant="h6" color="text.secondary">
+      <div className="text-center">
+        <h2 className="text-3xl font-bold text-white mb-2">Choose Your Resume Template</h2>
+        <p className="text-gray-400">
           All templates are ATS-friendly and optimized for modern recruitment systems
-        </Typography>
-      </Box>
+        </p>
+      </div>
 
       {/* Category Tabs */}
-      <Paper sx={{ mb: 4 }}>
-        <Tabs
-          value={activeCategory}
-          onChange={handleCategoryChange}
-          variant="scrollable"
-          scrollButtons="auto"
-          sx={{
-            '& .MuiTab-root': {
-              minHeight: 72,
-              textTransform: 'none',
-              fontWeight: 600
-            }
-          }}
-        >
-          {Object.values(TEMPLATE_CATEGORIES).map((category) => (
-            <Tab
-              key={category}
-              value={category}
-              icon={categoryIcons[category]}
-              label={categoryNames[category]}
-              iconPosition="start"
-              sx={{ gap: 1 }}
-            />
-          ))}
-        </Tabs>
-      </Paper>
+      <div className="flex flex-wrap gap-2 justify-center">
+        {Object.values(TEMPLATE_CATEGORIES).map((category) => (
+          <button
+            key={category}
+            onClick={() => setActiveCategory(category)}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+              activeCategory === category
+                ? 'bg-primary-600 text-white'
+                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+            }`}
+          >
+            {categoryIcons[category]}
+            <span>{categoryNames[category]}</span>
+          </button>
+        ))}
+      </div>
 
       {/* Templates Grid */}
-      <Grid container spacing={3}>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {getTemplatesByCategory(activeCategory).map(renderTemplateCard)}
-      </Grid>
+      </div>
 
       {/* Preview Dialog */}
-      <Dialog
-        open={!!previewTemplate}
-        onClose={() => setPreviewTemplate(null)}
-        maxWidth="md"
-        fullWidth
-      >
-        <DialogTitle>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Typography variant="h6">{previewTemplate?.name} Template</Typography>
-            <Chip
-              icon={<ATSIcon />}
-              label={`ATS Score: ${previewTemplate?.atsScore}%`}
-              color="success"
-              size="small"
-            />
-          </Box>
-        </DialogTitle>
-        
-        <DialogContent>
-          <Box
-            sx={{
-              height: 400,
-              background: 'linear-gradient(135deg, var(--primary-100) 0%, var(--secondary-100) 100%)',
-              borderRadius: 2,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              mb: 3
-            }}
-          >
-            <Typography variant="h4" sx={{ color: 'var(--primary-600)' }}>
-              {previewTemplate?.name} Preview
-            </Typography>
-          </Box>
+      <Dialog open={!!previewTemplate} onOpenChange={() => setPreviewTemplate(null)}>
+        <DialogContent className="max-w-2xl bg-gray-900 border-gray-700 max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-white flex items-center gap-2">
+              {previewTemplate?.name} Template
+              {previewTemplate?.isATSFriendly && (
+                <span className="flex items-center gap-1 px-2 py-1 bg-green-600 rounded-full text-white text-xs">
+                  <CheckCircle2 className="h-3 w-3" />
+                  ATS Score: {previewTemplate?.atsScore}%
+                </span>
+              )}
+            </DialogTitle>
+          </DialogHeader>
           
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            {previewTemplate?.description}
-          </Typography>
+          <div className="space-y-4">
+            <div className="h-64 bg-gradient-to-br from-primary-500/20 to-secondary-500/20 rounded-lg flex items-center justify-center">
+              <FileText className="h-24 w-24 text-primary-400 opacity-50" />
+            </div>
+            
+            <p className="text-gray-300">{previewTemplate?.description}</p>
+            
+            <div>
+              <h3 className="text-white font-semibold mb-2">Features:</h3>
+              <div className="flex flex-wrap gap-2">
+                {previewTemplate?.features?.map((feature, index) => (
+                  <span
+                    key={index}
+                    className="px-3 py-1 bg-gray-800 rounded text-sm text-gray-300"
+                  >
+                    {feature}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
           
-          <Typography variant="h6" sx={{ mb: 1 }}>Features:</Typography>
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-            {previewTemplate?.features.map((feature, index) => (
-              <Chip key={index} label={feature} variant="outlined" />
-            ))}
-          </Box>
+          <div className="flex justify-end gap-2 mt-6">
+            <Button
+              variant="outline"
+              onClick={() => setPreviewTemplate(null)}
+              className="border-gray-600 text-gray-300 hover:bg-gray-700"
+            >
+              Close
+            </Button>
+            <Button
+              onClick={() => {
+                handleTemplateSelect(previewTemplate);
+                setPreviewTemplate(null);
+              }}
+              className="bg-primary-600 hover:bg-primary-700"
+            >
+              Select This Template
+            </Button>
+          </div>
         </DialogContent>
-        
-        <DialogActions>
-          <Button onClick={() => setPreviewTemplate(null)}>Close</Button>
-          <Button
-            variant="contained"
-            onClick={() => {
-              handleTemplateSelect(previewTemplate);
-              setPreviewTemplate(null);
-            }}
-          >
-            Select This Template
-          </Button>
-        </DialogActions>
       </Dialog>
-    </Box>
+    </div>
   );
 };

@@ -1,206 +1,100 @@
 import { useState, useEffect } from 'react';
-import {
-  Box,
-  Typography,
-  TextField,
-  Grid,
-  Paper,
-  Button,
-  IconButton,
-  Divider,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Chip,
-  Switch,
-  FormControlLabel,
-  Alert,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Autocomplete
-} from '@mui/material';
-import {
-  Add as AddIcon,
-  Delete as DeleteIcon,
-  Edit as EditIcon,
-  Work as WorkIcon,
-  Business as BusinessIcon,
-  LocationOn as LocationIcon,
-
-  Save as SaveIcon,
-  Cancel as CancelIcon
-} from '@mui/icons-material';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { 
+  Briefcase, 
+  Building2, 
+  MapPin, 
+  Calendar,
+  Plus,
+  Trash2,
+  Save,
+  ChevronRight
+} from 'lucide-react';
 import { useResumeSpecificContext } from '../../context';
-
-const employmentTypes = [
-  'Full-time', 'Part-time', 'Contract', 'Freelance', 'Internship', 'Temporary'
-];
-
-const commonIndustries = [
-  'Technology', 'Healthcare', 'Finance', 'Education', 'Manufacturing',
-  'Retail', 'Consulting', 'Marketing', 'Non-profit', 'Government', 'Other'
-];
-
-const responsibilityTemplates = {
-  'Software Engineer': [
-    'Developed and maintained web applications using React and Node.js',
-    'Collaborated with cross-functional teams to deliver high-quality software solutions',
-    'Implemented RESTful APIs and database integrations',
-    'Participated in code reviews and maintained coding standards',
-    'Optimized application performance and resolved technical issues'
-  ],
-  'Marketing Manager': [
-    'Developed and executed comprehensive marketing strategies',
-    'Managed social media campaigns and increased engagement by X%',
-    'Collaborated with sales team to generate qualified leads',
-    'Analyzed market trends and competitor activities',
-    'Managed marketing budget of $X and delivered ROI of X%'
-  ],
-  'Project Manager': [
-    'Led cross-functional teams of X+ members to deliver projects on time',
-    'Managed project budgets ranging from $X to $X',
-    'Implemented Agile methodologies to improve team efficiency',
-    'Facilitated stakeholder communication and requirement gathering',
-    'Delivered X+ projects with 95%+ client satisfaction rate'
-  ],
-  'Sales Representative': [
-    'Exceeded sales targets by X% for consecutive quarters',
-    'Built and maintained relationships with X+ clients',
-    'Identified new business opportunities and expanded market reach',
-    'Conducted product demonstrations and presentations',
-    'Collaborated with marketing team to develop lead generation strategies'
-  ]
-};
 
 export const EnhancedExperienceForm = ({ onNext, onSave }) => {
   const resumeContext = useResumeSpecificContext();
   const [experiences, setExperiences] = useState([]);
-  const [editingIndex, setEditingIndex] = useState(-1);
   const [showForm, setShowForm] = useState(false);
-  const [errors, setErrors] = useState({});
-
+  const [editingIndex, setEditingIndex] = useState(-1);
   const [currentExperience, setCurrentExperience] = useState({
-    title: '',
+    jobTitle: '',
     company: '',
     location: '',
-    employmentType: 'Full-time',
-    industry: '',
     startDate: '',
     endDate: '',
     isCurrentRole: false,
-    responsibilities: '',
-    achievements: '',
-    technologies: [],
-    teamSize: '',
-    reportingTo: '',
-    directReports: 0,
-    keyProjects: '',
-    promotions: []
+    description: ''
   });
 
-  // Load existing data
   useEffect(() => {
     const existingExperiences = resumeContext?.resumeById?.experience || [];
-    setExperiences(existingExperiences);
+    if (existingExperiences.length > 0) {
+      setExperiences(existingExperiences);
+    }
   }, [resumeContext?.resumeById]);
 
-  const handleChange = (field) => (event) => {
-    const value = event.target.value;
-    setCurrentExperience(prev => ({
-      ...prev,
-      [field]: value
-    }));
-    
-    // Clear error when user starts typing
-    if (errors[field]) {
-      setErrors(prev => ({
-        ...prev,
-        [field]: ''
-      }));
+  const handleChange = (field) => (e) => {
+    const value = field === 'isCurrentRole' ? e.target.checked : e.target.value;
+    setCurrentExperience(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleAdd = () => {
+    if (currentExperience.jobTitle && currentExperience.company) {
+      const newExperiences = [...experiences, { ...currentExperience }];
+      setExperiences(newExperiences);
+      updateContext(newExperiences);
+      setCurrentExperience({
+        jobTitle: '',
+        company: '',
+        location: '',
+        startDate: '',
+        endDate: '',
+        isCurrentRole: false,
+        description: ''
+      });
+      setShowForm(false);
     }
   };
 
-  const handleTechnologyAdd = (technology) => {
-    if (technology && !currentExperience.technologies.includes(technology)) {
-      setCurrentExperience(prev => ({
-        ...prev,
-        technologies: [...prev.technologies, technology]
-      }));
-    }
-  };
-
-  const handleTechnologyRemove = (technology) => {
-    setCurrentExperience(prev => ({
-      ...prev,
-      technologies: prev.technologies.filter(tech => tech !== technology)
-    }));
-  };
-
-  const loadResponsibilityTemplate = (jobTitle) => {
-    const template = responsibilityTemplates[jobTitle];
-    if (template) {
-      setCurrentExperience(prev => ({
-        ...prev,
-        responsibilities: template.join('\n• ')
-      }));
-    }
-  };
-
-  const validateExperience = () => {
-    const newErrors = {};
-    
-    if (!currentExperience.title.trim()) newErrors.title = 'Job title is required';
-    if (!currentExperience.company.trim()) newErrors.company = 'Company name is required';
-    if (!currentExperience.location.trim()) newErrors.location = 'Location is required';
-    if (!currentExperience.startDate) newErrors.startDate = 'Start date is required';
-    if (!currentExperience.isCurrentRole && !currentExperience.endDate) {
-      newErrors.endDate = 'End date is required for past roles';
-    }
-    if (!currentExperience.responsibilities.trim()) {
-      newErrors.responsibilities = 'Job responsibilities are required';
-    }
-    
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSaveExperience = () => {
-    if (!validateExperience()) return;
-
-    const newExperiences = [...experiences];
-    if (editingIndex >= 0) {
-      newExperiences[editingIndex] = currentExperience;
-    } else {
-      newExperiences.push(currentExperience);
-    }
-    
-    setExperiences(newExperiences);
-    setShowForm(false);
-    setEditingIndex(-1);
-    resetForm();
-    
-    // Save to context
-    const updatedResume = {
-      ...resumeContext?.dirtyResume,
-      experience: newExperiences
-    };
-    resumeContext?.setDirtyResume(updatedResume);
-  };
-
-  const handleEditExperience = (index) => {
+  const handleEdit = (index) => {
     setCurrentExperience(experiences[index]);
     setEditingIndex(index);
     setShowForm(true);
   };
 
-  const handleDeleteExperience = (index) => {
-    const newExperiences = experiences.filter((_, i) => i !== index);
-    setExperiences(newExperiences);
-    
-    // Save to context
+  const handleUpdate = () => {
+    if (editingIndex >= 0) {
+      const newExperiences = [...experiences];
+      newExperiences[editingIndex] = currentExperience;
+      setExperiences(newExperiences);
+      updateContext(newExperiences);
+      setEditingIndex(-1);
+      setShowForm(false);
+      setCurrentExperience({
+        jobTitle: '',
+        company: '',
+        location: '',
+        startDate: '',
+        endDate: '',
+        isCurrentRole: false,
+        description: ''
+      });
+    }
+  };
+
+  const handleDelete = (index) => {
+    if (window.confirm('Are you sure you want to delete this experience?')) {
+      const newExperiences = experiences.filter((_, i) => i !== index);
+      setExperiences(newExperiences);
+      updateContext(newExperiences);
+    }
+  };
+
+  const updateContext = (newExperiences) => {
     const updatedResume = {
       ...resumeContext?.dirtyResume,
       experience: newExperiences
@@ -208,379 +102,206 @@ export const EnhancedExperienceForm = ({ onNext, onSave }) => {
     resumeContext?.setDirtyResume(updatedResume);
   };
 
-  const resetForm = () => {
-    setCurrentExperience({
-      title: '',
-      company: '',
-      location: '',
-      employmentType: 'Full-time',
-      industry: '',
-      startDate: '',
-      endDate: '',
-      isCurrentRole: false,
-      responsibilities: '',
-      achievements: '',
-      technologies: [],
-      teamSize: '',
-      reportingTo: '',
-      directReports: 0,
-      keyProjects: '',
-      promotions: []
-    });
-    setErrors({});
+  const handleSave = () => {
+    updateContext(experiences);
+    if (onSave) onSave(experiences);
+    if (onNext) onNext();
   };
 
-  const renderExperienceCard = (exp, index) => (
-    <Paper key={index} sx={{ p: 3, mb: 2, border: '1px solid #e0e0e0' }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
-        <Box>
-          <Typography variant="h6" sx={{ fontWeight: 600 }}>
-            {exp.title}
-          </Typography>
-          <Typography variant="subtitle1" sx={{ color: 'primary.main', mb: 1 }}>
-            {exp.company} • {exp.location}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {exp.startDate} - {exp.isCurrentRole ? 'Present' : exp.endDate} • {exp.employmentType}
-          </Typography>
-        </Box>
-        <Box>
-          <IconButton onClick={() => handleEditExperience(index)} color="primary">
-            <EditIcon />
-          </IconButton>
-          <IconButton onClick={() => handleDeleteExperience(index)} color="error">
-            <DeleteIcon />
-          </IconButton>
-        </Box>
-      </Box>
-      
-      <Typography variant="body2" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
-        {exp.responsibilities}
-      </Typography>
-      
-      {exp.technologies.length > 0 && (
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
-          {exp.technologies.map((tech, i) => (
-            <Chip key={i} label={tech} size="small" variant="outlined" />
-          ))}
-        </Box>
-      )}
-      
-      {exp.achievements && (
-        <Alert severity="success" sx={{ mt: 2 }}>
-          <Typography variant="body2">
-            <strong>Key Achievements:</strong> {exp.achievements}
-          </Typography>
-        </Alert>
-      )}
-    </Paper>
-  );
-
   return (
-    <Box sx={{ maxWidth: 1000, mx: 'auto', p: 3 }}>
-      <Typography variant="h4" gutterBottom sx={{ textAlign: 'center', mb: 4 }}>
-        Professional Experience
-      </Typography>
+    <div className="space-y-6">
+      <div className="text-center mb-6">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Work Experience</h2>
+        <p className="text-gray-600 dark:text-gray-400">Add your professional work history</p>
+      </div>
 
       {/* Experience List */}
-      <Box sx={{ mb: 4 }}>
-        {experiences.map((exp, index) => renderExperienceCard(exp, index))}
-        
-        {experiences.length === 0 && (
-          <Paper sx={{ p: 4, textAlign: 'center', bgcolor: 'grey.50' }}>
-            <WorkIcon sx={{ fontSize: 48, color: 'grey.400', mb: 2 }} />
-            <Typography variant="h6" color="text.secondary" gutterBottom>
-              No work experience added yet
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Add your professional experience to showcase your career journey
-            </Typography>
-          </Paper>
-        )}
-      </Box>
+      {experiences.length > 0 && (
+        <div className="space-y-4">
+          {experiences.map((exp, index) => (
+            <Card key={index} className="bg-white/80 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700">
+              <CardContent className="p-6">
+                <div className="flex justify-between items-start">
+                  <div className="flex-1">
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">{exp.jobTitle}</h3>
+                    <p className="text-primary-600 dark:text-primary-400 mb-2">{exp.company}</p>
+                    <div className="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400">
+                      {exp.location && <span>{exp.location}</span>}
+                      {exp.startDate && (
+                        <span>
+                          {exp.startDate} - {exp.isCurrentRole ? 'Present' : exp.endDate || 'Present'}
+                        </span>
+                      )}
+                    </div>
+                    {exp.description && (
+                      <p className="text-gray-700 dark:text-gray-300 mt-3 whitespace-pre-wrap">{exp.description}</p>
+                    )}
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleEdit(index)}
+                      className="border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDelete(index)}
+                      className="border-red-500 dark:border-red-600 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
 
-      {/* Add Experience Button */}
-      <Box sx={{ textAlign: 'center', mb: 4 }}>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={() => {
-            resetForm();
-            setShowForm(true);
-          }}
-          size="large"
-        >
-          Add Work Experience
-        </Button>
-      </Box>
-
-      {/* Experience Form Dialog */}
-      <Dialog open={showForm} onClose={() => setShowForm(false)} maxWidth="md" fullWidth>
-        <DialogTitle>
-          {editingIndex >= 0 ? 'Edit Experience' : 'Add Work Experience'}
-        </DialogTitle>
-        
-        <DialogContent>
-          <Grid container spacing={3} sx={{ mt: 1 }}>
-            {/* Job Title and Template */}
-            <Grid item xs={12} sm={8}>
-              <TextField
-                fullWidth
-                label="Job Title"
-                value={currentExperience.title}
-                onChange={handleChange('title')}
-                error={!!errors.title}
-                helperText={errors.title}
-                InputProps={{
-                  startAdornment: <WorkIcon sx={{ mr: 1, color: 'primary.main' }} />
-                }}
-                required
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <FormControl fullWidth>
-                <InputLabel>Use Template</InputLabel>
-                <Select
-                  value=""
-                  onChange={(e) => loadResponsibilityTemplate(e.target.value)}
-                  label="Use Template"
-                >
-                  {Object.keys(responsibilityTemplates).map((title) => (
-                    <MenuItem key={title} value={title}>{title}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-
-            {/* Company and Industry */}
-            <Grid item xs={12} sm={8}>
-              <TextField
-                fullWidth
-                label="Company Name"
-                value={currentExperience.company}
-                onChange={handleChange('company')}
-                error={!!errors.company}
-                helperText={errors.company}
-                InputProps={{
-                  startAdornment: <BusinessIcon sx={{ mr: 1, color: 'primary.main' }} />
-                }}
-                required
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Autocomplete
-                freeSolo
-                options={commonIndustries}
-                value={currentExperience.industry}
-                onChange={(event, newValue) => {
-                  setCurrentExperience(prev => ({ ...prev, industry: newValue || '' }));
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Industry"
-                    placeholder="Select or type..."
-                  />
-                )}
-              />
-            </Grid>
-
-            {/* Location and Employment Type */}
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Location"
-                value={currentExperience.location}
-                onChange={handleChange('location')}
-                error={!!errors.location}
-                helperText={errors.location}
-                InputProps={{
-                  startAdornment: <LocationIcon sx={{ mr: 1, color: 'primary.main' }} />
-                }}
-                required
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel>Employment Type</InputLabel>
-                <Select
-                  value={currentExperience.employmentType}
-                  onChange={handleChange('employmentType')}
-                  label="Employment Type"
-                >
-                  {employmentTypes.map((type) => (
-                    <MenuItem key={type} value={type}>{type}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-
-            {/* Dates */}
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Start Date"
-                type="month"
-                value={currentExperience.startDate}
-                onChange={handleChange('startDate')}
-                error={!!errors.startDate}
-                helperText={errors.startDate}
-                InputLabelProps={{ shrink: true }}
-                required
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Box>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={currentExperience.isCurrentRole}
-                      onChange={(e) => setCurrentExperience(prev => ({
-                        ...prev,
-                        isCurrentRole: e.target.checked,
-                        endDate: e.target.checked ? '' : prev.endDate
-                      }))}
-                    />
-                  }
-                  label="I currently work here"
-                  sx={{ mb: 1 }}
+      {/* Add/Edit Form */}
+      {showForm ? (
+        <Card className="bg-white/80 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700">
+          <CardHeader>
+            <CardTitle className="text-gray-900 dark:text-white">
+              {editingIndex >= 0 ? 'Edit Experience' : 'Add Experience'}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="jobTitle" className="text-gray-900 dark:text-white flex items-center gap-2">
+                  <Briefcase className="h-4 w-4" />
+                  Job Title *
+                </Label>
+                <Input
+                  id="jobTitle"
+                  value={currentExperience.jobTitle}
+                  onChange={handleChange('jobTitle')}
+                  className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
+                  placeholder="Software Engineer"
                 />
-                {!currentExperience.isCurrentRole && (
-                  <TextField
-                    fullWidth
-                    label="End Date"
-                    type="month"
-                    value={currentExperience.endDate}
-                    onChange={handleChange('endDate')}
-                    error={!!errors.endDate}
-                    helperText={errors.endDate}
-                    InputLabelProps={{ shrink: true }}
-                    required
-                  />
-                )}
-              </Box>
-            </Grid>
-
-            {/* Team Information */}
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Team Size"
-                value={currentExperience.teamSize}
-                onChange={handleChange('teamSize')}
-                placeholder="e.g., 5-person development team"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Direct Reports"
-                type="number"
-                value={currentExperience.directReports}
-                onChange={handleChange('directReports')}
-                inputProps={{ min: 0, max: 100 }}
-              />
-            </Grid>
-
-            {/* Job Responsibilities */}
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Job Responsibilities"
-                multiline
-                rows={6}
-                value={currentExperience.responsibilities}
-                onChange={handleChange('responsibilities')}
-                error={!!errors.responsibilities}
-                helperText={errors.responsibilities || 'Use bullet points (•) for better ATS scanning. Start each point with an action verb.'}
-                placeholder="• Developed and maintained web applications&#10;• Led a team of 5 developers&#10;• Improved system performance by 40%"
-                required
-              />
-            </Grid>
-
-            {/* Key Achievements */}
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Key Achievements (Optional)"
-                multiline
-                rows={3}
-                value={currentExperience.achievements}
-                onChange={handleChange('achievements')}
-                placeholder="Quantify your impact: increased sales by 25%, reduced costs by $50K, led successful product launch..."
-              />
-            </Grid>
-
-            {/* Technologies */}
-            <Grid item xs={12}>
-              <Box>
-                <Typography variant="subtitle1" gutterBottom>
-                  Technologies & Tools
-                </Typography>
-                <TextField
-                  fullWidth
-                  label="Add Technology"
-                  placeholder="Type a technology and press Enter"
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      handleTechnologyAdd(e.target.value);
-                      e.target.value = '';
-                    }
-                  }}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="company" className="text-gray-900 dark:text-white flex items-center gap-2">
+                  <Building2 className="h-4 w-4" />
+                  Company *
+                </Label>
+                <Input
+                  id="company"
+                  value={currentExperience.company}
+                  onChange={handleChange('company')}
+                  className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
+                  placeholder="Tech Corp"
                 />
-                <Box sx={{ mt: 1, display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                  {currentExperience.technologies.map((tech, index) => (
-                    <Chip
-                      key={index}
-                      label={tech}
-                      onDelete={() => handleTechnologyRemove(tech)}
-                      color="primary"
-                      variant="outlined"
-                    />
-                  ))}
-                </Box>
-              </Box>
-            </Grid>
-          </Grid>
-        </DialogContent>
-        
-        <DialogActions sx={{ p: 3 }}>
-          <Button
-            onClick={() => {
-              setShowForm(false);
-              resetForm();
-            }}
-            startIcon={<CancelIcon />}
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={handleSaveExperience}
-            variant="contained"
-            startIcon={<SaveIcon />}
-          >
-            {editingIndex >= 0 ? 'Update Experience' : 'Add Experience'}
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* Navigation */}
-      <Divider sx={{ my: 4 }} />
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Button variant="outlined" onClick={() => window.history.back()}>
-          Back
-        </Button>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="location" className="text-gray-900 dark:text-white flex items-center gap-2">
+                  <MapPin className="h-4 w-4" />
+                  Location
+                </Label>
+                <Input
+                  id="location"
+                  value={currentExperience.location}
+                  onChange={handleChange('location')}
+                  className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
+                  placeholder="New York, NY"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="startDate" className="text-gray-900 dark:text-white flex items-center gap-2">
+                  <Calendar className="h-4 w-4" />
+                  Start Date
+                </Label>
+                <Input
+                  id="startDate"
+                  type="month"
+                  value={currentExperience.startDate}
+                  onChange={handleChange('startDate')}
+                  className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="endDate" className="text-gray-900 dark:text-white">End Date</Label>
+                <Input
+                  id="endDate"
+                  type="month"
+                  value={currentExperience.endDate}
+                  onChange={handleChange('endDate')}
+                  className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
+                  disabled={currentExperience.isCurrentRole}
+                />
+              </div>
+              <div className="flex items-end">
+                <label className="flex items-center gap-2 text-gray-900 dark:text-white cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={currentExperience.isCurrentRole}
+                    onChange={handleChange('isCurrentRole')}
+                    className="w-4 h-4 rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700"
+                  />
+                  <span>I currently work here</span>
+                </label>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="description" className="text-gray-900 dark:text-white">Description</Label>
+              <textarea
+                id="description"
+                value={currentExperience.description}
+                onChange={handleChange('description')}
+                rows={5}
+                className="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-primary-500"
+                placeholder="Describe your responsibilities and achievements..."
+              />
+            </div>
+            <div className="flex gap-2">
+              <Button
+                onClick={editingIndex >= 0 ? handleUpdate : handleAdd}
+                className="bg-primary-600 hover:bg-primary-700"
+              >
+                <Save className="mr-2 h-4 w-4" />
+                {editingIndex >= 0 ? 'Update' : 'Add'} Experience
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setShowForm(false);
+                  setEditingIndex(-1);
+                  setCurrentExperience({
+                    jobTitle: '',
+                    company: '',
+                    location: '',
+                    startDate: '',
+                    endDate: '',
+                    isCurrentRole: false,
+                    description: ''
+                  });
+                }}
+                className="border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                Cancel
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      ) : (
         <Button
-          variant="contained"
-          onClick={() => {
-            if (onSave) onSave(experiences);
-            if (onNext) onNext();
-          }}
-          disabled={experiences.length === 0}
+          onClick={() => setShowForm(true)}
+          className="w-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-white border-2 border-dashed border-gray-300 dark:border-gray-600"
         >
-          Continue to Education
+          <Plus className="mr-2 h-5 w-5" />
+          Add Experience
         </Button>
-      </Box>
-    </Box>
+      )}
+
+    </div>
   );
 };

@@ -1,573 +1,344 @@
 import { useState, useEffect } from 'react';
-import {
-  Box,
-  Typography,
-  Grid,
-  Paper,
-  Button,
-  Chip,
-  TextField,
-
-  Autocomplete,
-  Slider,
-  Card,
-  CardContent,
-  Divider,
-  Alert,
-  Tabs,
-  Tab,
-  IconButton
-} from '@mui/material';
-import {
-  Code as CodeIcon,
-  Language as LanguageIcon,
-  Build as ToolIcon,
-  Business as BusinessIcon,
-  Add as AddIcon,
-  Delete as DeleteIcon,
-
-  Lightbulb as CertificationIcon
-} from '@mui/icons-material';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { 
+  Code, 
+  GraduationCap, 
+  Award,
+  Plus,
+  Trash2,
+  ChevronRight,
+  X
+} from 'lucide-react';
 import { useResumeSpecificContext } from '../../context';
-
-const skillCategories = {
-  technical: {
-    label: 'Technical Skills',
-    icon: <CodeIcon />,
-    color: '#2196F3',
-    suggestions: [
-      'JavaScript', 'Python', 'Java', 'React', 'Node.js', 'SQL', 'MongoDB',
-      'AWS', 'Docker', 'Kubernetes', 'Git', 'TypeScript', 'Vue.js', 'Angular',
-      'Django', 'Flask', 'Spring Boot', 'PostgreSQL', 'Redis', 'GraphQL'
-    ]
-  },
-  languages: {
-    label: 'Languages',
-    icon: <LanguageIcon />,
-    color: '#4CAF50',
-    suggestions: [
-      'English', 'Spanish', 'French', 'German', 'Chinese', 'Japanese',
-      'Portuguese', 'Italian', 'Russian', 'Arabic', 'Hindi', 'Korean'
-    ]
-  },
-  tools: {
-    label: 'Tools & Software',
-    icon: <ToolIcon />,
-    color: '#FF9800',
-    suggestions: [
-      'Microsoft Office', 'Google Workspace', 'Slack', 'Jira', 'Confluence',
-      'Figma', 'Adobe Creative Suite', 'Salesforce', 'HubSpot', 'Tableau',
-      'Power BI', 'Excel', 'PowerPoint', 'Sketch', 'InVision', 'Notion'
-    ]
-  },
-  business: {
-    label: 'Business Skills',
-    icon: <BusinessIcon />,
-    color: '#9C27B0',
-    suggestions: [
-      'Project Management', 'Leadership', 'Communication', 'Problem Solving',
-      'Strategic Planning', 'Team Management', 'Customer Service', 'Sales',
-      'Marketing', 'Data Analysis', 'Budget Management', 'Negotiation'
-    ]
-  }
-};
-
-const proficiencyLevels = {
-  1: { label: 'Beginner', color: '#f44336' },
-  2: { label: 'Basic', color: '#ff9800' },
-  3: { label: 'Intermediate', color: '#2196f3' },
-  4: { label: 'Advanced', color: '#4caf50' },
-  5: { label: 'Expert', color: '#9c27b0' }
-};
 
 export const EnhancedSkillsForm = ({ onNext, onSave }) => {
   const resumeContext = useResumeSpecificContext();
-  const [activeTab, setActiveTab] = useState(0);
-  const [skills, setSkills] = useState({
-    technical: [],
-    languages: [],
-    tools: [],
-    business: []
-  });
+  const [skills, setSkills] = useState([]);
+  const [education, setEducation] = useState([]);
   const [certifications, setCertifications] = useState([]);
   const [newSkill, setNewSkill] = useState('');
-  const [newCertification, setNewCertification] = useState({
+  const [showEducationForm, setShowEducationForm] = useState(false);
+  const [showCertForm, setShowCertForm] = useState(false);
+  const [currentEducation, setCurrentEducation] = useState({
+    degree: '',
+    institution: '',
+    location: '',
+    graduationDate: '',
+    gpa: ''
+  });
+  const [currentCert, setCurrentCert] = useState({
     name: '',
     issuer: '',
     date: '',
-    expiryDate: '',
-    credentialId: '',
-    url: ''
+    credentialId: ''
   });
 
-  const categories = Object.keys(skillCategories);
-  const currentCategory = categories[activeTab];
-
-  // Load existing data
   useEffect(() => {
-    const existingSkills = resumeContext?.resumeById?.skills || [];
-    const existingCertifications = resumeContext?.resumeById?.certifications || [];
-    
-    // Organize skills by category
-    const organizedSkills = {
-      technical: [],
-      languages: [],
-      tools: [],
-      business: []
-    };
-
-    existingSkills.forEach(skill => {
-      const category = skill.category || 'technical';
-      if (organizedSkills[category]) {
-        organizedSkills[category].push(skill);
-      }
-    });
-
-    setSkills(organizedSkills);
-    setCertifications(existingCertifications);
+    const existingData = resumeContext?.resumeById || {};
+    if (existingData.skills) setSkills(existingData.skills);
+    if (existingData.education) setEducation(existingData.education);
   }, [resumeContext?.resumeById]);
 
   const handleAddSkill = () => {
-    if (!newSkill.trim()) return;
-
-    const skill = {
-      name: newSkill.trim(),
-      category: currentCategory,
-      proficiency: 3,
-      yearsOfExperience: 1,
-      isEndorsed: false
-    };
-
-    setSkills(prev => ({
-      ...prev,
-      [currentCategory]: [...prev[currentCategory], skill]
-    }));
-
-    setNewSkill('');
-    saveToContext();
+    if (newSkill.trim()) {
+      const skillObj = typeof newSkill === 'string' ? { name: newSkill } : newSkill;
+      setSkills([...skills, skillObj]);
+      setNewSkill('');
+      updateContext();
+    }
   };
 
-  const handleRemoveSkill = (category, index) => {
-    setSkills(prev => ({
-      ...prev,
-      [category]: prev[category].filter((_, i) => i !== index)
-    }));
-    saveToContext();
+  const handleRemoveSkill = (index) => {
+    const newSkills = skills.filter((_, i) => i !== index);
+    setSkills(newSkills);
+    updateContext();
   };
 
-  const handleUpdateSkillProficiency = (category, index, proficiency) => {
-    setSkills(prev => ({
-      ...prev,
-      [category]: prev[category].map((skill, i) => 
-        i === index ? { ...skill, proficiency } : skill
-      )
-    }));
-    saveToContext();
+  const handleAddEducation = () => {
+    if (currentEducation.degree && currentEducation.institution) {
+      setEducation([...education, currentEducation]);
+      setCurrentEducation({
+        degree: '',
+        institution: '',
+        location: '',
+        graduationDate: '',
+        gpa: ''
+      });
+      setShowEducationForm(false);
+      updateContext();
+    }
   };
 
-  const handleUpdateSkillExperience = (category, index, years) => {
-    setSkills(prev => ({
-      ...prev,
-      [category]: prev[category].map((skill, i) => 
-        i === index ? { ...skill, yearsOfExperience: years } : skill
-      )
-    }));
-    saveToContext();
+  const handleAddCert = () => {
+    if (currentCert.name && currentCert.issuer) {
+      setCertifications([...certifications, currentCert]);
+      setCurrentCert({
+        name: '',
+        issuer: '',
+        date: '',
+        credentialId: ''
+      });
+      setShowCertForm(false);
+      updateContext();
+    }
   };
 
-  const handleAddCertification = () => {
-    if (!newCertification.name.trim() || !newCertification.issuer.trim()) return;
-
-    setCertifications(prev => [...prev, { ...newCertification }]);
-    setNewCertification({
-      name: '',
-      issuer: '',
-      date: '',
-      expiryDate: '',
-      credentialId: '',
-      url: ''
-    });
-    saveToContext();
-  };
-
-  const handleRemoveCertification = (index) => {
-    setCertifications(prev => prev.filter((_, i) => i !== index));
-    saveToContext();
-  };
-
-  const saveToContext = () => {
-    const allSkills = Object.values(skills).flat();
+  const updateContext = () => {
     const updatedResume = {
       ...resumeContext?.dirtyResume,
-      skills: allSkills,
+      skills: skills,
+      education: education,
       certifications: certifications
     };
     resumeContext?.setDirtyResume(updatedResume);
   };
 
-  const getSkillRecommendations = () => {
-    const existingSkills = skills[currentCategory].map(s => s.name.toLowerCase());
-    return skillCategories[currentCategory].suggestions.filter(
-      suggestion => !existingSkills.includes(suggestion.toLowerCase())
-    );
+  const handleSave = () => {
+    updateContext();
+    if (onSave) onSave({ skills, education, certifications });
+    if (onNext) onNext();
   };
 
-  const renderSkillCard = (skill, index, category) => (
-    <Card key={index} sx={{ mb: 2, border: '1px solid #e0e0e0' }}>
-      <CardContent sx={{ p: 2 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
-          <Typography variant="h6" sx={{ fontWeight: 600 }}>
-            {skill.name}
-          </Typography>
-          <IconButton
-            size="small"
-            onClick={() => handleRemoveSkill(category, index)}
-            color="error"
-          >
-            <DeleteIcon />
-          </IconButton>
-        </Box>
-
-        <Box sx={{ mb: 2 }}>
-          <Typography variant="body2" color="text.secondary" gutterBottom>
-            Proficiency Level
-          </Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Slider
-              value={skill.proficiency}
-              onChange={(_, value) => handleUpdateSkillProficiency(category, index, value)}
-              min={1}
-              max={5}
-              step={1}
-              marks={Object.entries(proficiencyLevels).map(([value, config]) => ({
-                value: parseInt(value),
-                label: config.label
-              }))}
-              sx={{ flexGrow: 1 }}
-            />
-            <Chip
-              label={proficiencyLevels[skill.proficiency].label}
-              size="small"
-              sx={{
-                backgroundColor: proficiencyLevels[skill.proficiency].color,
-                color: 'white',
-                minWidth: 80
-              }}
-            />
-          </Box>
-        </Box>
-
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <Typography variant="body2" color="text.secondary">
-            Years of Experience:
-          </Typography>
-          <TextField
-            size="small"
-            type="number"
-            value={skill.yearsOfExperience}
-            onChange={(e) => handleUpdateSkillExperience(category, index, parseInt(e.target.value) || 1)}
-            inputProps={{ min: 1, max: 50, style: { width: 60 } }}
-          />
-          <Typography variant="body2" color="text.secondary">
-            years
-          </Typography>
-        </Box>
-      </CardContent>
-    </Card>
-  );
-
-  const renderCertificationCard = (cert, _index) => (
-    <Card key={_index} sx={{ mb: 2, border: '1px solid #e0e0e0' }}>
-      <CardContent sx={{ p: 2 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
-          <Typography variant="h6" sx={{ fontWeight: 600 }}>
-            {cert.name}
-          </Typography>
-          <IconButton
-            size="small"
-            onClick={() => handleRemoveCertification(_index)}
-            color="error"
-          >
-            <DeleteIcon />
-          </IconButton>
-        </Box>
-        <Typography variant="body2" color="primary.main" gutterBottom>
-          {cert.issuer}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Issued: {cert.date}
-          {cert.expiryDate && ` • Expires: ${cert.expiryDate}`}
-        </Typography>
-        {cert.credentialId && (
-          <Typography variant="body2" color="text.secondary">
-            Credential ID: {cert.credentialId}
-          </Typography>
-        )}
-        {cert.url && (
-          <Button
-            size="small"
-            href={cert.url}
-            target="_blank"
-            sx={{ mt: 1, p: 0, textTransform: 'none' }}
-          >
-            View Credential
-          </Button>
-        )}
-      </CardContent>
-    </Card>
-  );
-
   return (
-    <Box sx={{ maxWidth: 1000, mx: 'auto', p: 3 }}>
-      <Typography variant="h4" gutterBottom sx={{ textAlign: 'center', mb: 4 }}>
-        Skills & Certifications
-      </Typography>
+    <div className="space-y-6">
+      <div className="text-center mb-6">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Education & Skills</h2>
+        <p className="text-gray-600 dark:text-gray-400">Add your education, skills, and certifications</p>
+      </div>
 
-      <Paper sx={{ mb: 4 }}>
-        <Tabs
-          value={activeTab}
-          onChange={(_, newValue) => setActiveTab(newValue)}
-          variant="fullWidth"
-          sx={{
-            '& .MuiTab-root': {
-              minHeight: 60,
-              textTransform: 'none',
-              fontWeight: 600
-            }
-          }}
-        >
-          {categories.map((category, index) => (
-            <Tab
-              key={category}
-              icon={skillCategories[category].icon}
-              label={skillCategories[category].label}
-              iconPosition="start"
-              sx={{ 
-                gap: 1,
-                color: skillCategories[category].color,
-                '&.Mui-selected': {
-                  color: skillCategories[category].color
-                }
-              }}
+      {/* Skills Section */}
+      <Card className="bg-white/80 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700">
+        <CardHeader>
+          <CardTitle className="text-gray-900 dark:text-white flex items-center gap-2">
+            <Code className="h-5 w-5" />
+            Skills
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex gap-2">
+            <Input
+              value={newSkill}
+              onChange={(e) => setNewSkill(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleAddSkill()}
+              className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white flex-1"
+              placeholder="Add a skill (e.g., JavaScript, Python, React)"
             />
-          ))}
-          <Tab
-            icon={<CertificationIcon />}
-            label="Certifications"
-            iconPosition="start"
-            sx={{ gap: 1 }}
-          />
-        </Tabs>
-      </Paper>
-
-      {activeTab < categories.length ? (
-        // Skills Tab
-        <Box>
-          <Alert severity="info" sx={{ mb: 3 }}>
-            Add skills relevant to your target job. Use industry-standard terms that ATS systems can recognize.
-            Rate your proficiency honestly - it helps match you with appropriate opportunities.
-          </Alert>
-
-          {/* Add Skill Section */}
-          <Paper sx={{ p: 3, mb: 4 }}>
-            <Typography variant="h6" gutterBottom>
-              Add {skillCategories[currentCategory].label}
-            </Typography>
-            
-            <Grid container spacing={2} alignItems="center">
-              <Grid item xs={12} sm={8}>
-                <Autocomplete
-                  freeSolo
-                  options={getSkillRecommendations()}
-                  value={newSkill}
-                  onChange={(_, value) => setNewSkill(value || '')}
-                  onInputChange={(_, value) => setNewSkill(value)}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label={`Add ${skillCategories[currentCategory].label.toLowerCase()}`}
-                      placeholder="Type or select from suggestions"
-                      onKeyPress={(e) => {
-                        if (e.key === 'Enter') {
-                          handleAddSkill();
-                        }
-                      }}
-                    />
-                  )}
-                />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  onClick={handleAddSkill}
-                  disabled={!newSkill.trim()}
-                  startIcon={<AddIcon />}
+            <Button onClick={handleAddSkill} className="bg-primary-600 hover:bg-primary-700">
+              <Plus className="h-4 w-4" />
+            </Button>
+          </div>
+          {skills.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {skills.map((skill, index) => (
+                <div
+                  key={index}
+                  className="flex items-center gap-2 px-3 py-1 bg-primary-100 dark:bg-primary-900/30 border border-primary-300 dark:border-primary-700 rounded-full text-primary-700 dark:text-primary-300"
                 >
-                  Add Skill
+                  <span>{typeof skill === 'string' ? skill : skill.name}</span>
+                  <button
+                    onClick={() => handleRemoveSkill(index)}
+                    className="hover:text-red-500 dark:hover:text-red-400"
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Education Section */}
+      <Card className="bg-white/80 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700">
+        <CardHeader>
+          <CardTitle className="text-gray-900 dark:text-white flex items-center gap-2">
+            <GraduationCap className="h-5 w-5" />
+            Education
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {education.length > 0 && (
+            <div className="space-y-3">
+              {education.map((edu, index) => (
+                <div key={index} className="p-4 bg-gray-100 dark:bg-gray-700/50 rounded-lg border border-gray-300 dark:border-gray-600">
+                  <h3 className="text-gray-900 dark:text-white font-semibold">{edu.degree}</h3>
+                  <p className="text-primary-600 dark:text-primary-400">{edu.institution}</p>
+                  {edu.location && <p className="text-gray-600 dark:text-gray-400 text-sm">{edu.location}</p>}
+                  {edu.graduationDate && <p className="text-gray-600 dark:text-gray-400 text-sm">{edu.graduationDate}</p>}
+                  {edu.gpa && <p className="text-gray-600 dark:text-gray-400 text-sm">GPA: {edu.gpa}</p>}
+                </div>
+              ))}
+            </div>
+          )}
+          {showEducationForm ? (
+            <div className="space-y-4 p-4 bg-gray-50 dark:bg-gray-700/30 rounded-lg border border-gray-300 dark:border-gray-600">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label className="text-gray-900 dark:text-white">Degree *</Label>
+                  <Input
+                    value={currentEducation.degree}
+                    onChange={(e) => setCurrentEducation({ ...currentEducation, degree: e.target.value })}
+                    className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
+                    placeholder="Bachelor of Science"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-gray-900 dark:text-white">Institution *</Label>
+                  <Input
+                    value={currentEducation.institution}
+                    onChange={(e) => setCurrentEducation({ ...currentEducation, institution: e.target.value })}
+                    className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
+                    placeholder="University Name"
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label className="text-gray-900 dark:text-white">Location</Label>
+                  <Input
+                    value={currentEducation.location}
+                    onChange={(e) => setCurrentEducation({ ...currentEducation, location: e.target.value })}
+                    className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
+                    placeholder="City, State"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-gray-900 dark:text-white">Graduation Date</Label>
+                  <Input
+                    type="month"
+                    value={currentEducation.graduationDate}
+                    onChange={(e) => setCurrentEducation({ ...currentEducation, graduationDate: e.target.value })}
+                    className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label className="text-gray-900 dark:text-white">GPA (Optional)</Label>
+                <Input
+                  value={currentEducation.gpa}
+                  onChange={(e) => setCurrentEducation({ ...currentEducation, gpa: e.target.value })}
+                  className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
+                  placeholder="3.8"
+                />
+              </div>
+              <div className="flex gap-2">
+                <Button onClick={handleAddEducation} className="bg-primary-600 hover:bg-primary-700">
+                  Add Education
                 </Button>
-              </Grid>
-            </Grid>
-
-            {/* Quick Add Suggestions */}
-            {getSkillRecommendations().length > 0 && (
-              <Box sx={{ mt: 2 }}>
-                <Typography variant="body2" color="text.secondary" gutterBottom>
-                  Popular {skillCategories[currentCategory].label.toLowerCase()}:
-                </Typography>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                  {getSkillRecommendations().slice(0, 8).map((suggestion) => (
-                    <Chip
-                      key={suggestion}
-                      label={suggestion}
-                      onClick={() => setNewSkill(suggestion)}
-                      variant="outlined"
-                      size="small"
-                      sx={{ cursor: 'pointer' }}
-                    />
-                  ))}
-                </Box>
-              </Box>
-            )}
-          </Paper>
-
-          {/* Skills List */}
-          <Box>
-            {skills[currentCategory].length > 0 ? (
-              skills[currentCategory].map((skill, index) => 
-                renderSkillCard(skill, index, currentCategory)
-              )
-            ) : (
-              <Paper sx={{ p: 4, textAlign: 'center', bgcolor: 'grey.50' }}>
-                <Typography variant="h6" color="text.secondary" gutterBottom>
-                  No {skillCategories[currentCategory].label.toLowerCase()} added yet
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Add your {skillCategories[currentCategory].label.toLowerCase()} to showcase your expertise
-                </Typography>
-              </Paper>
-            )}
-          </Box>
-        </Box>
-      ) : (
-        // Certifications Tab
-        <Box>
-          <Alert severity="info" sx={{ mb: 3 }}>
-            Add professional certifications, licenses, and credentials. These demonstrate your 
-            commitment to professional development and can be key differentiators.
-          </Alert>
-
-          {/* Add Certification Section */}
-          <Paper sx={{ p: 3, mb: 4 }}>
-            <Typography variant="h6" gutterBottom>
-              Add Certification
-            </Typography>
-            
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Certification Name"
-                  value={newCertification.name}
-                  onChange={(e) => setNewCertification(prev => ({ ...prev, name: e.target.value }))}
-                  required
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Issuing Organization"
-                  value={newCertification.issuer}
-                  onChange={(e) => setNewCertification(prev => ({ ...prev, issuer: e.target.value }))}
-                  required
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Issue Date"
-                  type="month"
-                  value={newCertification.date}
-                  onChange={(e) => setNewCertification(prev => ({ ...prev, date: e.target.value }))}
-                  InputLabelProps={{ shrink: true }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Expiry Date (Optional)"
-                  type="month"
-                  value={newCertification.expiryDate}
-                  onChange={(e) => setNewCertification(prev => ({ ...prev, expiryDate: e.target.value }))}
-                  InputLabelProps={{ shrink: true }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Credential ID (Optional)"
-                  value={newCertification.credentialId}
-                  onChange={(e) => setNewCertification(prev => ({ ...prev, credentialId: e.target.value }))}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Credential URL (Optional)"
-                  value={newCertification.url}
-                  onChange={(e) => setNewCertification(prev => ({ ...prev, url: e.target.value }))}
-                  placeholder="https://..."
-                />
-              </Grid>
-              <Grid item xs={12}>
                 <Button
-                  variant="contained"
-                  onClick={handleAddCertification}
-                  disabled={!newCertification.name.trim() || !newCertification.issuer.trim()}
-                  startIcon={<AddIcon />}
+                  variant="outline"
+                  onClick={() => setShowEducationForm(false)}
+                  className="border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <Button
+              onClick={() => setShowEducationForm(true)}
+              variant="outline"
+              className="w-full border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-dashed"
+            >
+              <Plus className="mr-2 h-4 w-4" />
+              Add Education
+            </Button>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Certifications Section */}
+      <Card className="bg-white/80 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700">
+        <CardHeader>
+          <CardTitle className="text-gray-900 dark:text-white flex items-center gap-2">
+            <Award className="h-5 w-5" />
+            Certifications
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {certifications.length > 0 && (
+            <div className="space-y-3">
+              {certifications.map((cert, index) => (
+                <div key={index} className="p-4 bg-gray-100 dark:bg-gray-700/50 rounded-lg border border-gray-300 dark:border-gray-600">
+                  <h3 className="text-gray-900 dark:text-white font-semibold">{cert.name}</h3>
+                  <p className="text-primary-600 dark:text-primary-400">{cert.issuer}</p>
+                  {cert.date && <p className="text-gray-600 dark:text-gray-400 text-sm">{cert.date}</p>}
+                  {cert.credentialId && <p className="text-gray-600 dark:text-gray-400 text-sm">ID: {cert.credentialId}</p>}
+                </div>
+              ))}
+            </div>
+          )}
+          {showCertForm ? (
+            <div className="space-y-4 p-4 bg-gray-50 dark:bg-gray-700/30 rounded-lg border border-gray-300 dark:border-gray-600">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label className="text-gray-900 dark:text-white">Certification Name *</Label>
+                  <Input
+                    value={currentCert.name}
+                    onChange={(e) => setCurrentCert({ ...currentCert, name: e.target.value })}
+                    className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
+                    placeholder="AWS Certified Solutions Architect"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-gray-900 dark:text-white">Issuing Organization *</Label>
+                  <Input
+                    value={currentCert.issuer}
+                    onChange={(e) => setCurrentCert({ ...currentCert, issuer: e.target.value })}
+                    className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
+                    placeholder="Amazon Web Services"
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label className="text-gray-900 dark:text-white">Issue Date</Label>
+                  <Input
+                    type="month"
+                    value={currentCert.date}
+                    onChange={(e) => setCurrentCert({ ...currentCert, date: e.target.value })}
+                    className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-gray-900 dark:text-white">Credential ID</Label>
+                  <Input
+                    value={currentCert.credentialId}
+                    onChange={(e) => setCurrentCert({ ...currentCert, credentialId: e.target.value })}
+                    className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
+                    placeholder="Optional"
+                  />
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <Button onClick={handleAddCert} className="bg-primary-600 hover:bg-primary-700">
                   Add Certification
                 </Button>
-              </Grid>
-            </Grid>
-          </Paper>
+                <Button
+                  variant="outline"
+                  onClick={() => setShowCertForm(false)}
+                  className="border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <Button
+              onClick={() => setShowCertForm(true)}
+              variant="outline"
+              className="w-full border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-dashed"
+            >
+              <Plus className="mr-2 h-4 w-4" />
+              Add Certification
+            </Button>
+          )}
+        </CardContent>
+      </Card>
 
-          {/* Certifications List */}
-          <Box>
-            {certifications.length > 0 ? (
-              certifications.map((cert, index) => renderCertificationCard(cert, index))
-            ) : (
-              <Paper sx={{ p: 4, textAlign: 'center', bgcolor: 'grey.50' }}>
-                <CertificationIcon sx={{ fontSize: 48, color: 'grey.400', mb: 2 }} />
-                <Typography variant="h6" color="text.secondary" gutterBottom>
-                  No certifications added yet
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Add your professional certifications and credentials
-                </Typography>
-              </Paper>
-            )}
-          </Box>
-        </Box>
-      )}
-
-      {/* Navigation */}
-      <Divider sx={{ my: 4 }} />
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Button variant="outlined" onClick={() => window.history.back()}>
-          Back
-        </Button>
-        <Button
-          variant="contained"
-          onClick={() => {
-            saveToContext();
-            if (onSave) onSave({ skills, certifications });
-            if (onNext) onNext();
-          }}
-        >
-          Continue to Preview
-        </Button>
-      </Box>
-    </Box>
+    </div>
   );
 };
